@@ -1,11 +1,37 @@
 #!/bin/bash
-env=$1
+env=${1,,}
+action=${2,,}
+
+# Parameter validation: env
+if [ "$env" == "dev" ]; then
+    echo "Development Environment selected!"
+elif [ "$env" == "prod" ]; then
+    echo "Production Environment selected!"
+else
+    echo "Invalid environment selected. Must be one of 'dev' or 'prod'"
+    exit
+fi
+
+# Parameter validation: action
+if [ "$action" == "apply" ]; then
+    echo "Apply action selected!"
+elif [ "$action" == "destroy" ]; then
+    echo "Destroy action selected!"
+else
+    echo "Invalid action selected. Must be one of 'apply' or 'destroy'"
+    exit
+fi
+
+name="bot_fredrick_$env"
 
 cd terraform
 
-terraform init \
+terraform init -reconfigure \
 -backend-config="bucket=terraform-state-537519792485" \
--backend-config="key=bot_fredrick_$env" \
--backend-config="region=ap-southeast-2" 
+-backend-config="key=$name" \
+-backend-config="region=ap-southeast-2"
+
+terraform workspace select $name || terraform workspace new $name
 
 terraform plan -var-file="environment/$env/terraform.tfvars"
+terraform $action -var-file="environment/$env/terraform.tfvars"
