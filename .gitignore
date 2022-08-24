@@ -7,3 +7,4 @@ venv/
 playground/
 poll-automation/credentials
 terraform/.terraform/
+.terraform/
