@@ -7,9 +7,6 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "terraform-state-537519792485"
-    key    = "bot_fredrick"
-    region = "ap-southeast-2"
   }
 }
 
