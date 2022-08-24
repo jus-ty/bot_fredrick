@@ -59,7 +59,7 @@ resource "aws_route_table_association" "private_rta" {
   route_table_id = aws_route_table.private_rt.id
 }
 
-resource "aws_security_group" "blank" {
+resource "aws_security_group" "blank_sg" {
   vpc_id         = aws_vpc.main_vpc.id
   description    = "Security group to be used to manually add myIP (ssh) as ingress rule"
   tags           = var.security_group_tags
