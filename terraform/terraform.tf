@@ -14,10 +14,24 @@ provider "aws" {
   region  = "${var.aws_region}"
 }
 
-# Pass in vars later!!
-
 module "network" {
     source = "./modules/network"
-    cidr_block = "${var.vpc_cidr_block}"
-    tags = "${var.vpc_tags}"
+
+    # VPC
+    vpc_cidr_block = "${var.vpc_cidr_block}"
+    vpc_tags = "${merge(var.vpc_name_tag,var.generic_tags)}"
+
+    # Public Subnet
+    public_subnet_tags = "${merge(var.public_subnet_name_tag,var.generic_tags)}"
+    public_subnet_cidr_block = "${var.public_subnet_cidr_block}"
+
+    # Private Subnet
+    private_subnet_tags = "${merge(var.private_subnet_name_tag,var.generic_tags)}"
+    private_subnet_cidr_block = "${var.private_subnet_cidr_block}"
+
+    # Internet Gateway
+    internet_gateway_tags = "${merge(var.igw_name_tag,var.generic_tags)}"
+
+    # Security Group
+    security_group_tags = "${merge(var.security_group_name_tag,var.generic_tags)}"
 }
