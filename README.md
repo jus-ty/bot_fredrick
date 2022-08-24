@@ -12,9 +12,10 @@ Linting: pylint
 - pip install -r requirements.txt
 
 # Running terraform deployment
-./deploy.sh <ENV> <ACTION>
+./deploy.sh (ENV) (ACTION)
+- Valid environments: dev, prod
+- Valid actions: apply, destroy
 
-Valid environments: dev, prod
-Valid actions: apply, destroy
+e.g ./deploy.sh dev apply
 
 AWS, Terraform, Python (Lambda), Cloudwatch, maybe a DB
