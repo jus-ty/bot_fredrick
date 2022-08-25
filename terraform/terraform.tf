@@ -14,8 +14,8 @@ provider "aws" {
   region  = "${var.aws_region}"
 }
 
-module "network" {
-    source = "./modules/network"
+module "networking" {
+    source = "./modules/networking"
 
     # VPC
     vpc_cidr_block = "${var.vpc_cidr_block}"
@@ -41,13 +41,13 @@ module "compute" {
     
     # EC2
     instance_ami = "${var.ec2_ami}"
-    security_group_id = module.network.security_group_id
+    security_group_id = module.networking.security_group_id
 
     # EC2 - bastion
     bastion_tags = "${merge(var.bastion_name_tag,var.generic_tags)}"
-    public_subnet_id = module.network.public_subnet_id
+    public_subnet_id = module.networking.public_subnet_id
 
     # EC2 - private host
     private_instance_tags = "${merge(var.private_instance_name_tag,var.generic_tags)}"
-    private_subnet_id = module.network.private_subnet_id
+    private_subnet_id = module.networking.private_subnet_id
 }

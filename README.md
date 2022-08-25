@@ -18,4 +18,8 @@ Linting: pylint
 
 e.g ./deploy.sh dev apply
 
+# Terraform module naming standard
+
+Modules should be named based on on AWS Service Categories
+
 AWS, Terraform, Python (Lambda), Cloudwatch, maybe a DB
