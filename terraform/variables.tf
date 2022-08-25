@@ -20,6 +20,14 @@ variable "vpc_name_tag" {
     description = "Name of the VPC"
 }
 
+variable "private_route_table_name_tag" {
+    description = "Name of the private route table"
+}
+
+variable "public_route_table_name_tag" {
+    description = "Name of the public route table"
+}
+
 # Public subnet
 variable "public_subnet_name_tag" {
     description = "Name of the subnet"
@@ -29,6 +37,10 @@ variable "public_subnet_cidr_block" {
     description = "CIDR block for the public subnet"
 }
 
+variable "eip_name_tag" {
+    description = "Name of the elastic IP"
+}
+
 # Private subnet
 variable "private_subnet_name_tag" {
     description = "Name of the subnet"
@@ -36,6 +48,10 @@ variable "private_subnet_name_tag" {
 
 variable "private_subnet_cidr_block" {
     description = "CIDR block for the public subnet"
+}
+
+variable "nat_gw_name_tag" {
+    description = "Name of the nat gateway"
 }
 
 # Internet gateway

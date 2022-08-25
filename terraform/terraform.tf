@@ -18,16 +18,20 @@ module "networking" {
     source = "./modules/networking"
 
     # VPC
-    vpc_cidr_block  = "${var.vpc_cidr_block}"
-    vpc_tags        = "${merge(var.vpc_name_tag,var.generic_tags)}"
+    vpc_cidr_block            = "${var.vpc_cidr_block}"
+    vpc_tags                  = "${merge(var.vpc_name_tag,var.generic_tags)}"
+    public_route_table_tags   = "${merge(var.public_route_table_name_tag,var.generic_tags)}"
+    private_route_table_tags  = "${merge(var.private_route_table_name_tag,var.generic_tags)}"
 
     # Public Subnet
     public_subnet_tags        = "${merge(var.public_subnet_name_tag,var.generic_tags)}"
     public_subnet_cidr_block  = "${var.public_subnet_cidr_block}"
+    eip_tags                  = "${merge(var.eip_name_tag,var.generic_tags)}"
 
     # Private Subnet
     private_subnet_tags       = "${merge(var.private_subnet_name_tag,var.generic_tags)}"
     private_subnet_cidr_block = "${var.private_subnet_cidr_block}"
+    nat_gw_tags               = "${merge(var.nat_gw_name_tag,var.generic_tags)}"
 
     # Internet Gateway
     internet_gateway_tags     = "${merge(var.igw_name_tag,var.generic_tags)}"

@@ -9,6 +9,16 @@ variable "vpc_tags" {
     type            = map(string)
 }
 
+variable "public_route_table_tags" {
+    description     = "Tags to set on the public route table"
+    type            = map(string)
+}
+
+variable "private_route_table_tags" {
+    description     = "Tags to set on the private route table"
+    type            = map(string)
+}
+
 # Public subnet
 variable "public_subnet_tags" {
     description     = "Tags to set on the public Subnet"
@@ -20,6 +30,11 @@ variable "public_subnet_cidr_block" {
     type            = string
 }
 
+variable "eip_tags" {
+    description     = "Tags for the elastic IP"
+    type            = map(string)
+}
+
 # Private subnet
 variable "private_subnet_tags" {
     description     = "Tags to set on the private Subnet"
@@ -29,6 +44,11 @@ variable "private_subnet_tags" {
 variable "private_subnet_cidr_block" {
     description     = "CIDR range for the private subnet"
     type            = string
+}
+
+variable "nat_gw_tags" {
+    description     = "Tags to set on the nat gw"
+    type            = map(string)
 }
 
 # Internet gateway

@@ -25,6 +25,7 @@ resource "aws_internet_gateway" "internet_gw" {
 
 resource "aws_route_table" "public_rt" {
   vpc_id        = aws_vpc.main_vpc.id
+  tags          = var.public_route_table_tags
   route {
     cidr_block  = "0.0.0.0/0"
     gateway_id  = aws_internet_gateway.internet_gw.id
@@ -37,17 +38,20 @@ resource "aws_route_table_association" "public_rta" {
 }
 
 resource "aws_eip" "nat" {
-  vpc = true
+  vpc   = true
+  tags  = var.eip_tags
 }
 
 resource "aws_nat_gateway" "nat_gw" {
   allocation_id   = aws_eip.nat.id
   subnet_id       = aws_subnet.public_subnet.id
   depends_on      = [aws_internet_gateway.internet_gw]
+  tags            = var.nat_gw_tags
 }
 
 resource "aws_route_table" "private_rt" {
   vpc_id            = aws_vpc.main_vpc.id
+  tags              = var.private_route_table_tags
   route {
     cidr_block      = "0.0.0.0/0"
     nat_gateway_id  = aws_nat_gateway.nat_gw.id
