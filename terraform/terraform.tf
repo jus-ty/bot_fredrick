@@ -32,8 +32,11 @@ module "networking" {
     # Internet Gateway
     internet_gateway_tags = "${merge(var.igw_name_tag,var.generic_tags)}"
 
-    # Security Group
-    security_group_tags = "${merge(var.security_group_name_tag,var.generic_tags)}"
+    # Bastion - Security Group tags
+    bastion_security_group_tags = "${merge(var.bastion_security_group_name_tag,var.generic_tags)}"
+
+    # Private instance - Security Group tags
+    private_instance_security_group_tags = "${merge(var.private_instance_security_group_name_tag,var.generic_tags)}"
 }
 
 module "compute" {
@@ -41,13 +44,14 @@ module "compute" {
     
     # EC2
     instance_ami = "${var.ec2_ami}"
-    security_group_id = module.networking.security_group_id
 
     # EC2 - bastion
     bastion_tags = "${merge(var.bastion_name_tag,var.generic_tags)}"
     public_subnet_id = module.networking.public_subnet_id
+    bastion_security_group_id = module.networking.bastion_security_group_id
 
     # EC2 - private host
     private_instance_tags = "${merge(var.private_instance_name_tag,var.generic_tags)}"
     private_subnet_id = module.networking.private_subnet_id
+    private_instance_security_group_id = module.networking.private_instance_security_group_id
 }

@@ -30,8 +30,12 @@ variable "igw_name_tag" {
     description = "Internet Gateway name tag"
 }
 
-variable "security_group_name_tag" {
-    description = "Security group name tag"
+variable "bastion_security_group_name_tag" {
+    description = "Security group name tag for the bastion server"
+}
+
+variable "private_instance_security_group_name_tag" {
+    description = "Security group name tag for the private instance"
 }
 
 variable "ec2_ami" {
@@ -45,6 +49,7 @@ variable "bastion_name_tag" {
 variable "private_instance_name_tag" {
     description = "Name tag for the private server"
 }
+
 variable "generic_tags" {
     description = "Generic tags for all resources"
 }

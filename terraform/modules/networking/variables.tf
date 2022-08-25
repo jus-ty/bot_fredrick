@@ -35,7 +35,12 @@ variable "internet_gateway_tags" {
     type        = map(string)
 }
 
-variable "security_group_tags" {
-    description = "Tags for the security group"
+variable "bastion_security_group_tags" {
+    description = "Tags for the bastion security group"
+    type        = map(string)
+}
+
+variable "private_instance_security_group_tags" {
+    description = "Tags for the private instance security group"
     type        = map(string)
 }

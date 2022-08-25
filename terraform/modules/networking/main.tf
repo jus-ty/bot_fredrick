@@ -59,8 +59,40 @@ resource "aws_route_table_association" "private_rta" {
   route_table_id = aws_route_table.private_rt.id
 }
 
-resource "aws_security_group" "blank_sg" {
+resource "aws_security_group" "bastion_sg" {
   vpc_id         = aws_vpc.main_vpc.id
-  description    = "Security group to be used to manually add myIP (ssh) as ingress rule"
-  tags           = var.security_group_tags
+  description    = "Security group to be used by the bastion host (need to manually add myIP as ssh ingress rule), allowing ssh egress everywhere"
+  tags           = var.bastion_security_group_tags
+  egress {
+     from_port   = 22
+     to_port     = 22
+     protocol    = "tcp"
+     cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "private_instance_sg" {
+  vpc_id         = aws_vpc.main_vpc.id
+  description    = "Security group to be used to by the private instance host, allowing ssh ingress/egress everywhere"
+  tags           = var.private_instance_security_group_tags
+  egress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
