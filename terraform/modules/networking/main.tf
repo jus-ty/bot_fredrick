@@ -65,38 +65,68 @@ resource "aws_route_table_association" "private_rta" {
 
 resource "aws_security_group" "bastion_sg" {
   vpc_id          = aws_vpc.main_vpc.id
-  description     = "Security group to be used by the bastion host (need to manually add myIP as ssh ingress rule), allowing ssh egress everywhere"
+  description     = "Security group to be used by the bastion host (need to manually add myIP as SSH+RDP ingress rule)"
   tags            = var.bastion_security_group_tags
-  egress {
-     from_port    = 22
-     to_port      = 22
-     protocol     = "tcp"
-     cidr_blocks  = ["0.0.0.0/0"]
-  }
+}
+
+resource "aws_security_group_rule" "bastion_egress_to_private_instance_ssh" {
+  type                      = "egress"
+  from_port                 = 22
+  to_port                   = 22
+  protocol                  = "tcp"
+  source_security_group_id  = aws_security_group.private_instance_sg.id
+  description               = "SSH Access from bastion to the private instance"
+  security_group_id         = aws_security_group.bastion_sg.id
+}
+
+resource "aws_security_group_rule" "bastion_egress_to_private_instance_rdp" {
+  type                      = "egress"
+  from_port                 = 3389
+  to_port                   = 3389
+  protocol                  = "tcp"
+  source_security_group_id  = aws_security_group.private_instance_sg.id
+  description               = "RDP Access from bastion to the private instance"
+  security_group_id         = aws_security_group.bastion_sg.id
 }
 
 resource "aws_security_group" "private_instance_sg" {
-  vpc_id          = aws_vpc.main_vpc.id
-  description     = "Security group to be used to by the private instance host, allowing ssh ingress/egress everywhere"
-  tags            = var.private_instance_security_group_tags
+  vpc_id              = aws_vpc.main_vpc.id
+  description         = "Security group to be used to by the private instance host, allowing ssh ingress/egress everywhere"
+  tags                = var.private_instance_security_group_tags
+
   egress {
-    from_port     = 80
-    to_port       = 80
-    protocol      = "tcp"
-    cidr_blocks   = ["0.0.0.0/0"]
+    from_port         = 80
+    to_port           = 80
+    protocol          = "tcp"
+    cidr_blocks       = ["0.0.0.0/0"]
+    description       = "HTTP Access from the private instance to the internet"
   }
 
   egress {
-    from_port     = 443
-    to_port       = 443
-    protocol      = "tcp"
-    cidr_blocks   = ["0.0.0.0/0"]
+    from_port         = 443
+    to_port           = 443
+    protocol          = "tcp"
+    cidr_blocks       = ["0.0.0.0/0"]
+    description       = "HTTPS Access from the private instance to the internet"
   }
+}
 
-  ingress {
-    from_port     = 22
-    to_port       = 22
-    protocol      = "tcp"
-    cidr_blocks   = ["0.0.0.0/0"]
-  }
+resource "aws_security_group_rule" "private_instance_ingress_from_bastion_ssh" {
+  type                      = "ingress"
+  from_port                 = 22
+  to_port                   = 22
+  protocol                  = "tcp"
+  source_security_group_id  = aws_security_group.bastion_sg.id
+  description               = "SSH Access from bastion to the private instance"
+  security_group_id         = aws_security_group.private_instance_sg.id
+}
+
+resource "aws_security_group_rule" "private_instance_ingress_from_bastion_rdp" {
+  type                      = "ingress"
+  from_port                 = 3389
+  to_port                   = 3389
+  protocol                  = "tcp"
+  source_security_group_id  = aws_security_group.bastion_sg.id
+  description               = "RDP Access from bastion to the private instance"
+  security_group_id         = aws_security_group.private_instance_sg.id
 }
