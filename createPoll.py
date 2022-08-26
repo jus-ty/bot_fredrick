@@ -28,9 +28,7 @@ print(f'RUN_ID: {RUN_ID}')
 
 # Open firefox
 press_with_sleep('winleft', 1)
-write_with_sleep('terminal', 1)
-press_with_sleep('enter', 1)
-write_with_sleep('firefox &', 1)
+write_with_sleep('firefox', 1)
 press_with_sleep('enter', 3)
 
 # Log into facebook messenger

@@ -23,3 +23,12 @@ e.g ./deploy.sh dev apply
 Modules should be named based on on AWS Service Categories
 
 AWS, Terraform, Python (Lambda), Cloudwatch, maybe a DB
+
+# Pre-run commands on baked AMI
+sudo adduser rdpuser (prompts to setup account)
+sudo apt update
+sudo apt install ubuntu-desktop
+sudo apt install xrdp
+sudo adduser xrdp ssl-cert
+sudo ufw allow 3389
+sudo ufw reload
