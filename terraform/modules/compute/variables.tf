@@ -26,6 +26,10 @@ variable "bastion_tags" {
     description = "Tags for the bastion server"
 }
 
+variable "bastion_instance_type" {
+    description = "EC2 Instance type for the bastion server"
+}
+
 # Private instance
 variable "private_instance_security_group_id" {
     description = "Security Group ID for the private instance"
@@ -33,4 +37,8 @@ variable "private_instance_security_group_id" {
 
 variable "private_instance_tags" {
     description = "Tags for the private server"
+}
+
+variable "private_instance_type" {
+    description = "EC2 Instance type for the private server"
 }

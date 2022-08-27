@@ -29,7 +29,9 @@ igw_name_tag                = {"Name": "bot_fredrick_igw_prod"}
 # Bastion
 bastion_security_group_name_tag     = {"Name": "bot_fredrick_bastion_sg_prod"}
 bastion_name_tag                    = {"Name": "bot_fredrick_bastion_prod"}
+bastion_instance_ec2_type           = "t2.micro"
 
 # Private instance
 private_instance_security_group_name_tag    = {"Name": "bot_fredrick_private_instance_sg_prod"}
 private_instance_name_tag                   = {"Name": "bot_fredrick_private_instance_prod"}
+private_instance_ec2_type                   = "t3.large"

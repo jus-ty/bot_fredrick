@@ -72,6 +72,10 @@ variable "bastion_name_tag" {
     description = "Name tag for the bastion server"
 }
 
+variable "bastion_instance_ec2_type" {
+    description = "Bastion server instance type"
+}
+
 # Private instance
 variable "private_instance_security_group_name_tag" {
     description = "Security group name tag for the private instance"
@@ -79,4 +83,8 @@ variable "private_instance_security_group_name_tag" {
 
 variable "private_instance_name_tag" {
     description = "Name tag for the private server"
+}
+
+variable "private_instance_ec2_type" {
+    description = "Private server instance type"
 }

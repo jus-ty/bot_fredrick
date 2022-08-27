@@ -38,9 +38,11 @@ module "networking" {
 
     # Bastion - Security Group tags
     bastion_security_group_tags   = "${merge(var.bastion_security_group_name_tag,var.generic_tags)}"
+    bastion_instance_type         = "${var.bastion_instance_ec2_type}"
 
     # Private instance - Security Group tags
     private_instance_security_group_tags  = "${merge(var.private_instance_security_group_name_tag,var.generic_tags)}"
+    private_instance_type                 = "${var.private_instance_ec2_type}"
 }
 
 module "compute" {
