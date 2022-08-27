@@ -1,6 +1,6 @@
 resource "aws_instance" "bastion_instance" {
   ami                       = var.bastion_ami
-  instance_type             = var.bastion_instance_type"t2.micro"
+  instance_type             = var.bastion_instance_type
   subnet_id                 = var.public_subnet_id
   vpc_security_group_ids    = [var.bastion_security_group_id]
   key_name                  = "bot_fredrick_kp"
