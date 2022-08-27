@@ -65,7 +65,7 @@ resource "aws_route_table_association" "private_rta" {
 
 resource "aws_security_group" "bastion_sg" {
   vpc_id          = aws_vpc.main_vpc.id
-  description     = "Security group to be used by the bastion host (need to manually add myIP as SSH+RDP ingress rule)"
+  description     = "Security group to be used by the bastion host (need to manually add myIP as SSH ingress rule)"
   tags            = var.bastion_security_group_tags
 }
 
@@ -108,6 +108,14 @@ resource "aws_security_group" "private_instance_sg" {
     protocol          = "tcp"
     cidr_blocks       = ["0.0.0.0/0"]
     description       = "HTTPS Access from the private instance to the internet"
+  }
+
+  egress {
+    from_port         = 22
+    to_port           = 22
+    protocol          = "tcp"
+    cidr_blocks       = ["0.0.0.0/0"]
+    description       = "SSH Access from the private instance to the internet (mainly for GIT)"
   }
 }
 

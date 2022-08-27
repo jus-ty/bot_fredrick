@@ -47,7 +47,8 @@ module "compute" {
     source = "./modules/compute"
     
     # EC2
-    instance_ami  = "${var.ec2_ami}"
+    private_instance_ami        = "${var.private_instance_ec2_ami}"
+    bastion_ami                 = "${var.bastion_ec2_ami}"
 
     # EC2 - bastion
     bastion_tags                = "${merge(var.bastion_name_tag,var.generic_tags)}"

@@ -3,8 +3,12 @@ variable "aws_region" {
     description = "The AWS region to create the resource"
 }
 
-variable "ec2_ami" {
-    description = "AMI for the EC2 to use"
+variable "private_instance_ec2_ami" {
+    description = "AMI for the private instance to use"
+}
+
+variable "bastion_ec2_ami" {
+    description = "AMI for the bastion to use"
 }
 
 variable "generic_tags" {

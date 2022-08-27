@@ -1,6 +1,10 @@
 #AMI
-variable "instance_ami" {
-    description = "AMI to be used by EC2 hosts"
+variable "private_instance_ami" {
+    description = "AMI to be used by private instance host"
+}
+
+variable "bastion_ami" {
+    description = "AMI to be used by bastion host"
 }
 
 # Public subnet

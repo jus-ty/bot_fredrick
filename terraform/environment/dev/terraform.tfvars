@@ -1,6 +1,7 @@
 # General
-aws_region      = "ap-southeast-2"
-ec2_ami         = "ami-05ba1fd509e8ae167" # Original: ami-0300dc03c13eb7660
+aws_region                        = "ap-southeast-2"
+private_instance_ec2_ami          = "ami-0173ba6c241b7aa7f"
+bastion_ec2_ami                   = "ami-0300dc03c13eb7660"
 generic_tags    = {
     "Environment": "dev"
     "Project": "bot_fredrick"
