@@ -28,7 +28,7 @@ e.g ./deploy.sh dev apply
 
 Modules should be named based on on AWS Service Categories
 
-### Pre-run commands on baked AMI
+### Pre-run commands (for RDP) on baked AMI
 ```
 sudo adduser rdpuser (prompts to setup account)
 sudo apt update
