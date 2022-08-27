@@ -18,5 +18,5 @@ resource "aws_instance" "private_instance" {
 }
 
 data "template_file" "private_instance_userdata_script" {
-  template = file("./templates/user-data.tpl")
+  template = file("${path.module}/templates/user-data.tpl")
 }
