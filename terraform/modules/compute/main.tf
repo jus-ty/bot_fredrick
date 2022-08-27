@@ -14,4 +14,9 @@ resource "aws_instance" "private_instance" {
   vpc_security_group_ids    = [var.private_instance_security_group_id]
   key_name                  = "bot_fredrick_kp"
   tags                      = var.private_instance_tags
+  user_data                 = "${data.template_file.private_instance_userdata_script.template}"
+}
+
+data "template_file" "private_instance_userdata_script" {
+  template = file("./templates/user-data.tpl")
 }
