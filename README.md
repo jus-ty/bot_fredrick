@@ -4,15 +4,21 @@ Automate organisation of badminton sessions
 Linting: pylint
 
 ### Pre-req installs:
-- sudo apt-get install python3-tk python3-dev scrot
+```
+sudo apt-get install python3-tk python3-dev scrot
+```
 
 ### Setup virtual env
-- python3 -m venv env
-- source env/bin/activate
-- pip install -r requirements.txt
+```
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
 
 ### Running terraform deployment
+```
 ./deploy.sh (ENV) (ACTION)
+```
 - Valid environments: dev, prod
 - Valid actions: apply, destroy
 
