@@ -1,0 +1,22 @@
+# Lambda
+
+variable "lambda_iam_role" {
+    description = "IAM role arn for the lambda function"
+}
+
+variable "lambda_security_group" {
+    description = "ID for the security group of the lambda function"
+}
+
+variable "lambda_name" {
+    description = "Name of the lambda function"
+}
+
+variable "lambda_name_tags" {
+    description = "Tags for the lambda"
+    type        = map(string)
+}
+
+variable "lambda_subnet_id" {
+    description = "Subnet that lambda operates in"
+}
