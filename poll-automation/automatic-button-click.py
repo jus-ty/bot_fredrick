@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-import pyautogui
 import time
 
 
@@ -10,20 +9,6 @@ THREAD_ID = '5024734647638392'                  # the group chat ID (found in th
 EMAIL = 'andyjustincloud@gmail.com'             # TODO: replace with AWS SSM parameter value
 PASSWORD = 'hdw&lwLzx251D'                      # TODO: replace with AWS SSM parameter value
 DRIVERPATH = "/Users/andrewguo/Documents/Learning/GitHub/bot-fredrick/drivers/chromedriver"             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers
-
-def press_with_sleep(key_input: list, sleep_value: int):
-    """
-    Takes key press input and sleep value
-    """
-    pyautogui.press(key_input)
-    time.sleep(sleep_value)
-
-def write_with_sleep(write_input: str, sleep_value: int):
-    """
-    Takes write input and sleep value
-    """
-    pyautogui.write(write_input)
-    time.sleep(sleep_value)
 
 
 
@@ -59,16 +44,6 @@ def login_facebook(driver, EMAIL, PASSWORD):
     driver.find_element(By.NAME, 'email').send_keys(f'{EMAIL}', Keys.TAB, f'{PASSWORD}', Keys.ENTER)                    # HTML, name="email"
     time.sleep(7)
 
-    """
-    write_with_sleep(f'{EMAIL}', 1) 
-    press_with_sleep('tab', 1)
-    write_with_sleep(f'{PASSWORD}', 1) 
-    press_with_sleep('tab', 1)
-    press_with_sleep('enter', 10)
-    time.sleep(2)
-    """
-    
-    
     
 def create_group_messenger_poll(driver, pollTitle, option1, option2):
     """
@@ -87,17 +62,6 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     askAQuestionPollClass = "qi72231t.bdao358l.s3jn8y49.k14qyeqv.mz1h5j5e.icdlwmnq.hsphh064.b6ax4al1.pkdwr69g.sc980dfb.kq3l28k4.rc95jfaf.f52gun2r.c0v9jzqx.k1z55t6l.tpi2lg9u.rj0o91l8.p9ctufpz.k0kqjr44.pbevjfx6"
     driver.find_element(By.CLASS_NAME, askAQuestionPollClass).send_keys(f'{pollTitle}', Keys.TAB, f'{option1}', Keys.TAB, f'{option2}', Keys.TAB, Keys.TAB, Keys.ENTER)
 
-    """
-    write_with_sleep(f'{pollTitle}', 1)
-    press_with_sleep('tab', 1)
-    write_with_sleep(f'{option1}', 1)
-    press_with_sleep('tab', 1)
-    write_with_sleep(f'{option2}', 1)
-    press_with_sleep('tab', 1)
-    press_with_sleep('tab', 1)
-    press_with_sleep('enter', 1)
-    """
-    
 
 
 open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
