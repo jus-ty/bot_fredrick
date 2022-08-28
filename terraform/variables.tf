@@ -15,3 +15,13 @@ variable "vpc_cidr_block" {
 variable "vpc_name_tag" {
     description = "Name of the VPC"
 }
+
+# Security group
+variable "lambda_name_tag" {
+    description = "Name of the lambda function"
+}
+
+# IAM Role
+variable "lambda_iam_name_tag" {
+    description = "Name of the IAM role for the lambda function"
+}
