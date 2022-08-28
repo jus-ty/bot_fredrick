@@ -1,18 +1,18 @@
 # General
 variable "aws_region" {
     description = "The AWS region to create the resource"
-    type        = "string"
+    type        = string
 }
 
 variable "generic_tags" {
     description = "Generic tags for all resources"
-    type        = "string"
+    type        = string
 }
 
 # VPC
 variable "vpc_cidr_block" {
     description = "CIDR block for the VPC"
-    type        = "string"
+    type        = string
 }
 
 variable "vpc_name_tag" {
@@ -28,7 +28,7 @@ variable "public_subnet_name_tag" {
 
 variable "public_subnet_cidr_block" {
     description = "CIDR block for the public subnet"
-    type        = "string"
+    type        = string
 }
 
 variable "eip_name_tag" {
@@ -49,7 +49,7 @@ variable "private_subnet_name_tag" {
 
 variable "private_subnet_cidr_block" {
     description = "CIDR block for the private subnet"
-    type        = "string"
+    type        = string
 }
 
 variable "nat_gw_name_tag" {
@@ -76,7 +76,7 @@ variable "lambda_iam_name_tag" {
 
 variable "lambda_iam_name_single" {
     description = "Name of the IAM for lambda, not in a list/map"
-    type        = "string"
+    type        = string
 }
 
 # Security Group
@@ -88,7 +88,7 @@ variable "lambda_sg_name_tag" {
 # Lambda
 variable "lambda_name_single" {
     description = "Name of the lambda, not in a list/map"
-    type        = "string"
+    type        = string
 }
 
 variable "lambda_name_tag" {
