@@ -16,6 +16,7 @@ DRIVERPATH = "/Users/andrewguo/Documents/Learning/GitHub/bot-fredrick/drivers/ch
 try:
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")                 # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
+    options.add_argument("--headless")                  # Headless mode will hide the Chrome interface
     options.add_experimental_option("detach", True)     # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
     driver = webdriver.Chrome(DRIVERPATH, options=options)
 
@@ -26,12 +27,12 @@ except Exception as e:
 def badminton_time(day, twenty_four_hr_time):
     """
     Calculates next day based on input and converts the 24 hour time to 12 hour time to be clear
-    
+
     TODO: day input type in eg. Thursday and automatically calculate
     """
 
     today = date.today()                                                    # Ref: https://stackoverflow.com/questions/4909577/python-django-why-am-i-getting-this-error-attributeerror-method-descriptor
-    thursday = today + timedelta( (3-today.weekday()) % 7 )                 # Ref: https://stackoverflow.com/questions/12906402/type-object-datetime-datetime-has-no-attribute-datetime
+    thursday = today + timedelta( (3-today.weekday()) % 7 )                 # Ref: https://stackoverflow.com/questions/8801084/how-to-calculate-next-friday, Ref 2: https://stackoverflow.com/questions/12906402/type-object-datetime-datetime-has-no-attribute-datetime
     thursday_reformat = thursday.strftime("%a %d/%m/%Y")
 
     format_time = datetime.strptime(twenty_four_hr_time, "%H:%M")                       # Ref: https://stackoverflow.com/questions/13855111/how-can-i-convert-24-hour-time-to-12-hour-time
@@ -82,8 +83,9 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
 
 
 badminton_time_scheduled = badminton_time("thurs", "19:00")
+poll_title = '[AG] Badminton, ' + str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1]) + '?'
 
 open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
 login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
-create_group_messenger_poll(driver, '[AG] Badminton, ' + str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1]) + '?', 'option1', 'option2')
+create_group_messenger_poll(driver, poll_title, 'option1', 'option2')
 
