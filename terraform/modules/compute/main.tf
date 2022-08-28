@@ -15,10 +15,10 @@ resource "aws_lambda_function" "lambda" {
 }
 
 data "archive_file" "lambda_zip_file" {
-  type        = "zip"
-  output_path = "/tmp/test.zip"
+  type                  = "zip"
+  output_path           = "/tmp/test.zip"
   source {
-    content  = file("${path.module}/test.py")
-    filename = "test.py"
+    content             = file("${path.module}/test.py")
+    filename            = "test.py"
   }
 }
