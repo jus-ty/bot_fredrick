@@ -5,9 +5,9 @@ import pyautogui
 import time
 
 
-THREAD_ID = '5024734647638392'
-EMAIL = 'andyjustincloud@gmail.com'
-PASSWORD = 'hdw&lwLzx251D'
+THREAD_ID = '5024734647638392'                  # the group chat ID (found in the URL of the group chat Messenger)
+EMAIL = 'andyjustincloud@gmail.com'             # TODO: replace with AWS SSM parameter value
+PASSWORD = 'hdw&lwLzx251D'                      # TODO: replace with AWS SSM parameter value
 DRIVERPATH = "/Users/andrewguo/Documents/Learning/GitHub/bot-fredrick/drivers/chromedriver"             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers
 
 def press_with_sleep(key_input: list, sleep_value: int):
@@ -60,9 +60,9 @@ def login_facebook(driver, EMAIL, PASSWORD):
 
     #browser.find_element(By.NAME, 'username').send_keys('MYEMAIL', Keys.TAB, 'MYPW', Keys.ENTER)
 
-    write_with_sleep(f'{EMAIL}', 1) # TODO: replace with AWS SSM parameter value
+    write_with_sleep(f'{EMAIL}', 1) 
     press_with_sleep('tab', 1)
-    write_with_sleep(f'{PASSWORD}', 1) # TODO: replace with AWS SSM parameter value
+    write_with_sleep(f'{PASSWORD}', 1) 
     press_with_sleep('tab', 1)
     press_with_sleep('enter', 10)
     time.sleep(2)
@@ -72,10 +72,11 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     """
     Create the poll
     """
-
+    
+    # Selenium locating elements. Ref: https://selenium-python.readthedocs.io/locating-elements.html
     # https://stackoverflow.com/questions/55980282/how-to-find-and-click-on-a-button-element-that-contains-multiple-classes
     openMoreActionsClass = "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.dnr7xe2t.aeinzg81.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.d2hqwtrz.fzd7ma4j.o9wcebwi.lcfup58g.i0rxk2l3.laatuukc.b7mnygb8.iec8yc8l"
-    driver.find_element(By.CLASS_NAME, openMoreActionsClass).click()    
+    driver.find_element(By.CLASS_NAME, openMoreActionsClass).click()                            # Selenium version 4.3.0+ new find_element function. Ref: https://ittutoria.net/attributeerror-webdriver-object-has-no-attribute-find_element_by_css_selector-how-to-solve-this-error%EF%BF%BC/
     time.sleep(1)
     driver.find_element(By.XPATH, "//span[contains(text(), 'Create a poll')]").click()          # https://stackoverflow.com/questions/57310634/how-to-click-on-before-after-cc-tag-in-selenium-webdriver-with-python
 
