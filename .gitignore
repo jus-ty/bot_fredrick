@@ -5,4 +5,4 @@ env/
 terraform/.terraform/*
 venv/
 playground/
-poll-automation/credentials
+poll-automation/configurations
