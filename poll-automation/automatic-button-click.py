@@ -11,7 +11,7 @@ config = configparser.ConfigParser()                                # Ref: https
 config.read('poll-automation/configurations/credentials.ini')
 
 
-THREAD_ID = '5024734647638392'                      # the group chat ID (found in the URL of the group chat Messenger)
+THREAD_ID = config['messenger']['devtesting_groupchat_id']                      # the group chat ID (found in the URL of the group chat Messenger)
 EMAIL = config['credentials']['email']              # TODO: replace with AWS SSM parameter value
 PASSWORD = config['credentials']['password']        # TODO: replace with AWS SSM parameter value
 DRIVERPATH = "/Users/andrewguo/Documents/Learning/GitHub/bot-fredrick/drivers/chromedriver"             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers
@@ -20,9 +20,9 @@ DRIVERPATH = "/Users/andrewguo/Documents/Learning/GitHub/bot-fredrick/drivers/ch
 
 try:
     options = webdriver.ChromeOptions()
-    options.add_argument("--incognito")                 # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
-    options.add_argument("--headless")                  # Headless mode will hide the Chrome interface
-    options.add_experimental_option("detach", True)     # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
+    options.add_argument("--incognito")                     # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
+    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface
+    options.add_experimental_option("detach", True)         # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
     driver = webdriver.Chrome(DRIVERPATH, options=options)
 
 except Exception as e:
