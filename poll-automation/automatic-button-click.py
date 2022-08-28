@@ -81,8 +81,13 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     driver.find_element(By.CLASS_NAME, openMoreActionsClass).click()                            # Selenium version 4.3.0+ new find_element function. Ref: https://ittutoria.net/attributeerror-webdriver-object-has-no-attribute-find_element_by_css_selector-how-to-solve-this-error%EF%BF%BC/
     time.sleep(1)
     driver.find_element(By.XPATH, "//span[contains(text(), 'Create a poll')]").click()          # https://stackoverflow.com/questions/57310634/how-to-click-on-before-after-cc-tag-in-selenium-webdriver-with-python
+    time.sleep(1)
 
+    # Alternative if do not want to identify using askAQuestionPollClass. Ref: https://stackoverflow.com/questions/32886927/send-keys-without-specifying-element-in-python-selenium-webdriver
+    askAQuestionPollClass = "qi72231t.bdao358l.s3jn8y49.k14qyeqv.mz1h5j5e.icdlwmnq.hsphh064.b6ax4al1.pkdwr69g.sc980dfb.kq3l28k4.rc95jfaf.f52gun2r.c0v9jzqx.k1z55t6l.tpi2lg9u.rj0o91l8.p9ctufpz.k0kqjr44.pbevjfx6"
+    driver.find_element(By.CLASS_NAME, askAQuestionPollClass).send_keys(f'{pollTitle}', Keys.TAB, f'{option1}', Keys.TAB, f'{option2}', Keys.TAB, Keys.TAB, Keys.ENTER)
 
+    """
     write_with_sleep(f'{pollTitle}', 1)
     press_with_sleep('tab', 1)
     write_with_sleep(f'{option1}', 1)
@@ -91,8 +96,10 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     press_with_sleep('tab', 1)
     press_with_sleep('tab', 1)
     press_with_sleep('enter', 1)
+    """
+    
 
 
 open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
 login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
-create_group_messenger_poll(driver, '[AG] testing', 'option1', 'option2')
+create_group_messenger_poll(driver, '[AG] testing hamsters', 'option1', 'option2')
