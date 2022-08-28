@@ -5,10 +5,15 @@ from selenium.webdriver.common.keys import Keys
 import time
 from datetime import datetime, date, timedelta
 
+import configparser
 
-THREAD_ID = '5024734647638392'                  # the group chat ID (found in the URL of the group chat Messenger)
-EMAIL = 'andyjustincloud@gmail.com'             # TODO: replace with AWS SSM parameter value
-PASSWORD = 'hdw&lwLzx251D'                      # TODO: replace with AWS SSM parameter value
+config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
+config.read('poll-automation/configurations/credentials.ini')
+
+
+THREAD_ID = '5024734647638392'                      # the group chat ID (found in the URL of the group chat Messenger)
+EMAIL = config['credentials']['email']              # TODO: replace with AWS SSM parameter value
+PASSWORD = config['credentials']['password']        # TODO: replace with AWS SSM parameter value
 DRIVERPATH = "/Users/andrewguo/Documents/Learning/GitHub/bot-fredrick/drivers/chromedriver"             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers
 
 
