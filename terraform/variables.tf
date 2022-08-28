@@ -6,7 +6,7 @@ variable "aws_region" {
 
 variable "generic_tags" {
     description = "Generic tags for all resources"
-    type        = string
+    type        = map(string)
 }
 
 # VPC

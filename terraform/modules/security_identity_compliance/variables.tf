@@ -6,5 +6,5 @@ variable "lambda_iam_role_name" {
 
 variable "lambda_iam_role_tags" {
     description = "Tags of the IAM role for the lambda function"
-    type        = string
+    type        = map(string)
 }
