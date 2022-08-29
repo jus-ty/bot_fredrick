@@ -32,18 +32,22 @@ except Exception as e:
 def badminton_time(day, twenty_four_hr_time):
     """
     Calculates next day based on input and converts the 24 hour time to 12 hour time to be clear
-
-    TODO: day input type in eg. Thursday and automatically calculate
     """
 
-    today = date.today()                                                    # Ref: https://stackoverflow.com/questions/4909577/python-django-why-am-i-getting-this-error-attributeerror-method-descriptor
-    thursday = today + timedelta( (3-today.weekday()) % 7 )                 # Ref: https://stackoverflow.com/questions/8801084/how-to-calculate-next-friday, Ref 2: https://stackoverflow.com/questions/12906402/type-object-datetime-datetime-has-no-attribute-datetime
-    thursday_reformat = thursday.strftime("%a %d/%m/%Y")
+    today = date.today()                                                                # Ref: https://stackoverflow.com/questions/4909577/python-django-why-am-i-getting-this-error-attributeerror-method-descriptor
+    today_formatted = today.strftime("%U %Y")                                           # Reason for this random %U %Y, datetime is not picking up a date correctly when only specifying the day of the week. Ref: https://stackoverflow.com/questions/66326630/python-strptime-ignoring-a
 
+    # calculate the date of the next 'day' specified
+    weekday_as_int = datetime.strptime(day + today_formatted, "%A%U %Y")
+    weekday_as_int_converted = weekday_as_int.strftime("%u")                            # %u: Monday = 1, Sunday = 7, Ref: https://docs.python.org/3/library/datetime.html
+    date_of_next_day = today + timedelta( ((int(weekday_as_int_converted) - 1) - today.weekday()) % 7 )                             # Ref: https://stackoverflow.com/questions/8801084/how-to-calculate-next-friday, Ref 2: https://stackoverflow.com/questions/12906402/type-object-datetime-datetime-has-no-attribute-datetime
+    date_of_next_day_formatted = date_of_next_day.strftime("%a %d/%m/%Y")
+    
+    # re-formats 'twenty_four_hr_time' to 12 hour time
     format_time = datetime.strptime(twenty_four_hr_time, "%H:%M")                       # Ref: https://stackoverflow.com/questions/13855111/how-can-i-convert-24-hour-time-to-12-hour-time
     twelve_hour_time = format_time.strftime("%I:%M %p")
 
-    return thursday_reformat, twelve_hour_time
+    return date_of_next_day_formatted, twelve_hour_time
 
 
 def open_browser(driver, url, browserType = "chrome"):    
@@ -87,7 +91,7 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     driver.find_element(By.CLASS_NAME, askAQuestionPollClass).send_keys(f'{pollTitle}', Keys.TAB, f'{option1}', Keys.TAB, f'{option2}', Keys.TAB, Keys.TAB, Keys.ENTER)
 
 
-badminton_time_scheduled = badminton_time("thurs", "19:00")
+badminton_time_scheduled = badminton_time("Thursday", "19:00")
 poll_title = '[AG] Badminton, ' + str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1]) + '?'
 
 open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
