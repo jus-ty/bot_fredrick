@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 async-generator==1.10
 attrs==22.1.0
 certifi==2022.6.15
