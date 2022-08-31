@@ -8,12 +8,12 @@ import os
 
 config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
 config.read('poll-automation/configurations/credentials.ini')
-current_directory = os.path.abspath(os.curdir)
+current_file_directory = os.path.dirname(os.path.abspath(__file__))
 
 THREAD_ID = config['messenger']['devtesting_groupchat_id']                      # the group chat ID (found in the URL of the group chat Messenger)
 EMAIL = config['credentials']['email']              # TODO: replace with AWS SSM parameter value
 PASSWORD = config['credentials']['password']        # TODO: replace with AWS SSM parameter value
-DRIVERPATH = current_directory + "/drivers/chromedriver"             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers
+DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chromedriver')             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers
 
 
 
