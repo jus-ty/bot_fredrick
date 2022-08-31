@@ -13,7 +13,7 @@ current_file_directory = os.path.dirname(os.path.abspath(__file__))
 THREAD_ID = config['messenger']['devtesting_groupchat_id']                      # the group chat ID (found in the URL of the group chat Messenger)
 EMAIL = config['credentials']['email']              # TODO: replace with AWS SSM parameter value
 PASSWORD = config['credentials']['password']        # TODO: replace with AWS SSM parameter value
-DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chromedriver')             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers
+DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chromedriver')             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers. Moving down a directory from the current directory of the file. Ref: https://stackoverflow.com/questions/25701809/how-to-move-down-to-a-parent-directory-in-python
 
 
 
