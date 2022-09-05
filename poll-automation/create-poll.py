@@ -97,11 +97,19 @@ def finish_session():
     """
     driver.quit()                       # All windows related to driver instance will quit. Ref: https://www.geeksforgeeks.org/how-to-use-close-and-quit-method-in-selenium-python/
 
-badminton_time_scheduled = badminton_time("Thursday", "19:00")
-poll_title = '[AG] Badminton, ' + str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1]) + '?'
+def main():
+    """
+    Functionality of the script
+    """
 
-open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
-login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
-create_group_messenger_poll(driver, poll_title, 'Yes', 'No')
-finish_session()
+    badminton_time_scheduled = badminton_time("Thursday", "19:00")
+    poll_title = '[AG] Badminton, ' + str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1]) + '?'
+
+    open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
+    login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
+    create_group_messenger_poll(driver, poll_title, 'Yes', 'No')
+    finish_session()
+
+if __name__ == '__main__':
+    main()
 
