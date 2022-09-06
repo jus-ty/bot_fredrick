@@ -20,7 +20,7 @@ DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chro
 try:
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")                     # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
-    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface. Ref: https://stackoverflow.com/questions/53657215/running-selenium-with-headless-chrome-webdriver
+    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface
     options.add_experimental_option("detach", True)         # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
     driver = webdriver.Chrome(DRIVERPATH, options=options)
 
@@ -47,6 +47,16 @@ def badminton_time(day, twenty_four_hr_time):
     twelve_hour_time = format_time.strftime("%I:%M %p")
 
     return date_of_next_day_formatted, twelve_hour_time
+
+def write_messenger_message(text):
+    """
+    Sends 'text' to the Messenger chat
+    """
+
+    messengerChatboxClass = "pbevjfx6.icdlwmnq.om3e55n1.l4e6dv8b.cgu29s5g.effxes4x.lgak1ieh.aeinzg81.mm05nxu8.notranslate"
+    driver.find_element(By.CLASS_NAME, messengerChatboxClass).send_keys(text, Keys.ENTER) 
+
+    time.sleep(2)
 
 
 def open_browser(driver, url, browserType = "chrome"):    
@@ -90,7 +100,7 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     # Alternative if do not want to identify using askAQuestionPollClass. Ref: https://stackoverflow.com/questions/32886927/send-keys-without-specifying-element-in-python-selenium-webdriver, Ref 2: https://stackoverflow.com/questions/19268617/sendkeys-in-selenium-web-driver
     askAQuestionPollClass = "qi72231t.bdao358l.s3jn8y49.k14qyeqv.mz1h5j5e.icdlwmnq.hsphh064.b6ax4al1.pkdwr69g.sc980dfb.kq3l28k4.rc95jfaf.f52gun2r.c0v9jzqx.k1z55t6l.tpi2lg9u.rj0o91l8.p9ctufpz.k0kqjr44.pbevjfx6"
     driver.find_element(By.CLASS_NAME, askAQuestionPollClass).send_keys(f'{pollTitle}', Keys.TAB, f'{option1}', Keys.TAB, f'{option2}', Keys.TAB, Keys.TAB, Keys.ENTER)
-    time.sleep(1)
+    time.sleep(2)
 
 def finish_session():
     """
@@ -103,11 +113,13 @@ def main():
     """
 
     badminton_time_scheduled = badminton_time("Thursday", "19:00")
-    poll_title = '[AG] Badminton, ' + str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1]) + '?'
+    badminton_time_formatted = str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1])
+    poll_title = '[AG] Badminton, ' + badminton_time_formatted + '?'
 
     open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
     login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
     create_group_messenger_poll(driver, poll_title, 'Yes', 'No')
+    write_messenger_message('Please vote in poll above for badminton attendance on ' + badminton_time_formatted)
     finish_session()
 
 if __name__ == '__main__':
