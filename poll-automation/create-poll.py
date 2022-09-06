@@ -20,7 +20,7 @@ DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chro
 try:
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")                     # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
-    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface
+    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface. Ref: https://stackoverflow.com/questions/53657215/running-selenium-with-headless-chrome-webdriver
     options.add_experimental_option("detach", True)         # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
     driver = webdriver.Chrome(DRIVERPATH, options=options)
 
