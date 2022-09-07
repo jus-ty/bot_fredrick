@@ -1,5 +1,6 @@
 async-generator==1.10
 attrs==22.1.0
+boto3==1.24.66
 certifi==2022.6.15
 h11==0.13.0
 idna==3.3
