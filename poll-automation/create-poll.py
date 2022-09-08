@@ -20,7 +20,7 @@ def get_ssm_parameters(env):
         Names=[
             'bot_fredrick_email',
             'bot_fredrick_pass',
-            'fb_group_chat_thread_id_' + env,
+            f'fb_group_chat_thread_id_{env}',
         ],
         WithDecryption=True
     )
@@ -40,7 +40,7 @@ environment = 'dev'                 # TODO: have this and the below initializati
 current_file_directory = os.path.dirname(os.path.abspath(__file__))
 all_ssm_parameters = get_ssm_parameters(environment)
 
-THREAD_ID = all_ssm_parameters['fb_group_chat_thread_id_' + environment]                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
+THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
 EMAIL = all_ssm_parameters['bot_fredrick_email']                                   # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['email'] 
 PASSWORD = all_ssm_parameters['bot_fredrick_pass']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
 DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chromedriver')             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers. Moving down a directory from the current directory of the file. Ref: https://stackoverflow.com/questions/25701809/how-to-move-down-to-a-parent-directory-in-python
