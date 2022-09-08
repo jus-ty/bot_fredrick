@@ -5,14 +5,44 @@ import time
 from datetime import datetime, date, timedelta
 import configparser
 import os
+import boto3
 
-config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
-config.read('poll-automation/configurations/credentials.ini')
+
+def get_ssm_parameters(env):
+    """
+    Returns parameters from AWS Systems Manager > Parameter Store
+    """
+
+    client = boto3.client('ssm')
+    all_parameters = {}
+
+    response = client.get_parameters(                       # Ref 1: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html#SSM.Client.get_parameters. Ref 2: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html
+        Names=[
+            'bot_fredrick_email',
+            'bot_fredrick_pass',
+            f'fb_group_chat_thread_id_{env}',
+        ],
+        WithDecryption=True
+    )
+    
+    for parameter in response['Parameters']:
+        all_parameters[parameter['Name']] = parameter['Value']
+    
+    return all_parameters
+
+
+"""
+#Use following for no AWS connection:
+#config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
+#config.read('poll-automation/configurations/credentials.ini')
+"""
+environment = 'dev'                 # TODO: have this and the below initialization of credentials in a function and be called inside 'main' function
 current_file_directory = os.path.dirname(os.path.abspath(__file__))
+all_ssm_parameters = get_ssm_parameters(environment)
 
-THREAD_ID = config['messenger']['devtesting_groupchat_id']                      # the group chat ID (found in the URL of the group chat Messenger)
-EMAIL = config['credentials']['email']              # TODO: replace with AWS SSM parameter value
-PASSWORD = config['credentials']['password']        # TODO: replace with AWS SSM parameter value
+THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
+EMAIL = all_ssm_parameters['bot_fredrick_email']                                   # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['email'] 
+PASSWORD = all_ssm_parameters['bot_fredrick_pass']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
 DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chromedriver')             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers. Moving down a directory from the current directory of the file. Ref: https://stackoverflow.com/questions/25701809/how-to-move-down-to-a-parent-directory-in-python
 
 
