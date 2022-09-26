@@ -3,6 +3,7 @@ resource "aws_lambda_function" "lambda" {
   role                  = var.lambda_iam_role
   runtime               = "python3.7"
   handler               = "create_poll.lambda_handler" # python_script_name.driver_function_name
+  timeout               = 180
   filename              = "${data.archive_file.lambda_zip_file.output_path}"
   source_code_hash      = "${data.archive_file.lambda_zip_file.output_base64sha256}"
   tags                  = var.lambda_name_tags
