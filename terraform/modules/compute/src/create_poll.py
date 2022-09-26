@@ -1,3 +1,5 @@
+# ============ DEFINE FUNCTIONS START ==============
+
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -5,27 +7,30 @@ import time
 from datetime import datetime, date, timedelta
 import configparser
 import os
-
-config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
-config.read('poll-automation/configurations/credentials.ini')
-current_file_directory = os.path.dirname(os.path.abspath(__file__))
-
-THREAD_ID = config['messenger']['devtesting_groupchat_id']                      # the group chat ID (found in the URL of the group chat Messenger)
-EMAIL = config['credentials']['email']              # TODO: replace with AWS SSM parameter value
-PASSWORD = config['credentials']['password']        # TODO: replace with AWS SSM parameter value
-DRIVERPATH = os.path.join(os.path.dirname(current_file_directory), 'drivers/chromedriver')             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers. Moving down a directory from the current directory of the file. Ref: https://stackoverflow.com/questions/25701809/how-to-move-down-to-a-parent-directory-in-python
+import boto3
 
 
+def get_ssm_parameters(env):
+    """
+    Returns parameters from AWS Systems Manager > Parameter Store
+    """
 
-try:
-    options = webdriver.ChromeOptions()
-    options.add_argument("--incognito")                     # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
-    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface. Ref: https://stackoverflow.com/questions/53657215/running-selenium-with-headless-chrome-webdriver
-    options.add_experimental_option("detach", True)         # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
-    driver = webdriver.Chrome(DRIVERPATH, options=options)
+    client = boto3.client('ssm')
+    all_parameters = {}
 
-except Exception as e:
-    print(e)
+    response = client.get_parameters(                       # Ref 1: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html#SSM.Client.get_parameters. Ref 2: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html
+        Names=[
+            'bot_fredrick_email',
+            'bot_fredrick_pass',
+            f'fb_group_chat_thread_id_{env}',
+        ],
+        WithDecryption=True
+    )
+    
+    for parameter in response['Parameters']:
+        all_parameters[parameter['Name']] = parameter['Value']
+    
+    return all_parameters
 
 
 def badminton_time(day, twenty_four_hr_time):
@@ -47,6 +52,16 @@ def badminton_time(day, twenty_four_hr_time):
     twelve_hour_time = format_time.strftime("%I:%M %p")
 
     return date_of_next_day_formatted, twelve_hour_time
+
+def write_messenger_message(text):
+    """
+    Sends 'text' to the Messenger chat
+    """
+
+    messengerChatboxClass = "pbevjfx6.icdlwmnq.om3e55n1.l4e6dv8b.cgu29s5g.effxes4x.lgak1ieh.aeinzg81.mm05nxu8.notranslate"
+    driver.find_element(By.CLASS_NAME, messengerChatboxClass).send_keys(text, Keys.ENTER) 
+
+    time.sleep(2)
 
 
 def open_browser(driver, url, browserType = "chrome"):    
@@ -75,7 +90,6 @@ def login_facebook(driver, EMAIL, PASSWORD):
 def create_group_messenger_poll(driver, pollTitle, option1, option2):
     """
     Create the poll
-
     TODO: remove 'option1' and 'option2', introduce array of options with dynamic detection of whatever number of options typed in
     """
 
@@ -90,18 +104,51 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     # Alternative if do not want to identify using askAQuestionPollClass. Ref: https://stackoverflow.com/questions/32886927/send-keys-without-specifying-element-in-python-selenium-webdriver, Ref 2: https://stackoverflow.com/questions/19268617/sendkeys-in-selenium-web-driver
     askAQuestionPollClass = "qi72231t.bdao358l.s3jn8y49.k14qyeqv.mz1h5j5e.icdlwmnq.hsphh064.b6ax4al1.pkdwr69g.sc980dfb.kq3l28k4.rc95jfaf.f52gun2r.c0v9jzqx.k1z55t6l.tpi2lg9u.rj0o91l8.p9ctufpz.k0kqjr44.pbevjfx6"
     driver.find_element(By.CLASS_NAME, askAQuestionPollClass).send_keys(f'{pollTitle}', Keys.TAB, f'{option1}', Keys.TAB, f'{option2}', Keys.TAB, Keys.TAB, Keys.ENTER)
-    time.sleep(1)
+    time.sleep(2)
 
 def finish_session():
     """
     """
     driver.quit()                       # All windows related to driver instance will quit. Ref: https://www.geeksforgeeks.org/how-to-use-close-and-quit-method-in-selenium-python/
 
-badminton_time_scheduled = badminton_time("Thursday", "19:00")
-poll_title = '[AG] Badminton, ' + str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1]) + '?'
+# ============ DEFINE FUNCTIONS END ================
 
-open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
-login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
-create_group_messenger_poll(driver, poll_title, 'Yes', 'No')
-finish_session()
+def lambda_handler(event, context):
+    # Put "DRIVER" code here (where we call the functions defined above)
+    print(f'event: {event}')
+    print(f'context: {context}')
+    """
+    Functionality of the script
+    """
 
+    """
+    #Use following for no AWS connection:
+    #config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
+    #config.read('poll-automation/configurations/credentials.ini')
+    """
+    environment = 'dev'                 # TODO: have this and the below initialization of credentials in a function and be called inside 'main' function
+    current_file_directory = os.path.dirname(os.path.abspath(__file__))
+    all_ssm_parameters = get_ssm_parameters(environment)
+
+    THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
+    EMAIL = all_ssm_parameters['bot_fredrick_email']                                   # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['email'] 
+    PASSWORD = all_ssm_parameters['bot_fredrick_pass']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
+    DRIVERPATH = os.path.relpath("../../opt/chromedriver_linux")             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers. Moving down a directory from the current directory of the file. Ref: https://stackoverflow.com/questions/25701809/how-to-move-down-to-a-parent-directory-in-python
+
+
+    options = webdriver.ChromeOptions()
+    options.add_argument("--incognito")                     # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
+    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface. Ref: https://stackoverflow.com/questions/53657215/running-selenium-with-headless-chrome-webdriver
+    options.add_experimental_option("detach", True)         # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
+    driver = webdriver.Chrome(DRIVERPATH, options=options)
+
+
+    badminton_time_scheduled = badminton_time("Thursday", "19:00")
+    badminton_time_formatted = str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1])
+    poll_title = '[JW] Badminton, ' + badminton_time_formatted + '?'
+
+    open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
+    login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
+    create_group_messenger_poll(driver, poll_title, 'Yes', 'No')
+    write_messenger_message('Please vote in poll above for badminton attendance on ' + badminton_time_formatted)
+    finish_session()

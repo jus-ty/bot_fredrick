@@ -26,4 +26,5 @@ Modules should be named based on on AWS Service Categories
 
 ### AWS Resources created outside of the terraform scripts (manually)
 - S3 Terraform state bucket
-- AWS SSM Params (not created yet)
+- AWS SSM Params
+- Lambda Chromedriver layer
