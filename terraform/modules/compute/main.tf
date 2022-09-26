@@ -2,7 +2,7 @@ resource "aws_lambda_function" "lambda" {
   function_name         = var.lambda_name
   role                  = var.lambda_iam_role
   runtime               = "python3.7"
-  handler               = "create_poll.lambda_handler" # python_script_name.driver_function_name
+  handler               = "main.lambda_handler" # python_script_name.driver_function_name
   timeout               = 180
   filename              = "${data.archive_file.lambda_zip_file.output_path}"
   source_code_hash      = "${data.archive_file.lambda_zip_file.output_base64sha256}"
@@ -23,7 +23,7 @@ data "archive_file" "lambda_zip_file" {
   type                  = "zip"
   output_path           = "/tmp/create_poll_lambda.zip"
   source {
-    content             = file("${path.module}/src/create_poll.py")
-    filename            = "create_poll.py"
+    content             = file("${path.module}/src/create_poll/main.py")
+    filename            = "main.py"
   }
 }
