@@ -1,5 +1,4 @@
-# ============ DEFINE FUNCTIONS START ==============
-
+from headless_chrome import create_driver
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -53,7 +52,7 @@ def badminton_time(day, twenty_four_hr_time):
 
     return date_of_next_day_formatted, twelve_hour_time
 
-def write_messenger_message(text):
+def write_messenger_message(driver, text):
     """
     Sends 'text' to the Messenger chat
     """
@@ -82,7 +81,7 @@ def login_facebook(driver, EMAIL, PASSWORD):
     """
     Log into facebook messenger
     """
-
+    
     driver.find_element(By.NAME, 'email').send_keys(f'{EMAIL}', Keys.TAB, f'{PASSWORD}', Keys.ENTER)                    # HTML, name="email". Ref: https://stackoverflow.com/questions/72455584/use-selenium-to-fill-the-username-and-password-on-this-site
     time.sleep(7)
 
@@ -93,11 +92,16 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     TODO: remove 'option1' and 'option2', introduce array of options with dynamic detection of whatever number of options typed in
     """
 
+    
     # Selenium locating elements. Ref: https://selenium-python.readthedocs.io/locating-elements.html
     # Ref: https://stackoverflow.com/questions/55980282/how-to-find-and-click-on-a-button-element-that-contains-multiple-classes
-    openMoreActionsClass = "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.dnr7xe2t.aeinzg81.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.d2hqwtrz.fzd7ma4j.o9wcebwi.lcfup58g.i0rxk2l3.laatuukc.b7mnygb8.iec8yc8l"
+    ## NOTE: THIS IS A BIT FUCKY - dono why I need to get the url again otherwise this part don't work. adding a longer sleep seems to help, my guess is coz the container isn't as powerful as our personal PCs. consider adding explicit wait, REF: https://stackoverflow.com/questions/69834929/how-to-get-find-elements-by-class-name-to-work-in-python-selenium
+    driver.get("https://www.facebook.com/messages/t/5024734647638392")
+    time.sleep(10)
+    ## END OF FUCKY - NESS
+    openMoreActionsClass = 'qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.dnr7xe2t.aeinzg81.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.d2hqwtrz.fzd7ma4j.o9wcebwi.lcfup58g.i0rxk2l3.laatuukc.b7mnygb8.iec8yc8l'
     driver.find_element(By.CLASS_NAME, openMoreActionsClass).click()                            # Selenium version 4.3.0+ new find_element function. Ref: https://ittutoria.net/attributeerror-webdriver-object-has-no-attribute-find_element_by_css_selector-how-to-solve-this-error%EF%BF%BC/
-    time.sleep(1)
+    time.sleep(5)
     driver.find_element(By.XPATH, "//span[contains(text(), 'Create a poll')]").click()          # Ref: https://stackoverflow.com/questions/57310634/how-to-click-on-before-after-cc-tag-in-selenium-webdriver-with-python
     time.sleep(1)
 
@@ -106,17 +110,13 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     driver.find_element(By.CLASS_NAME, askAQuestionPollClass).send_keys(f'{pollTitle}', Keys.TAB, f'{option1}', Keys.TAB, f'{option2}', Keys.TAB, Keys.TAB, Keys.ENTER)
     time.sleep(2)
 
-def finish_session():
+def finish_session(driver):
     """
+    Complete the session
     """
     driver.quit()                       # All windows related to driver instance will quit. Ref: https://www.geeksforgeeks.org/how-to-use-close-and-quit-method-in-selenium-python/
 
-# ============ DEFINE FUNCTIONS END ================
-
 def lambda_handler(event, context):
-    # Put "DRIVER" code here (where we call the functions defined above)
-    print(f'event: {event}')
-    print(f'context: {context}')
     """
     Functionality of the script
     """
@@ -135,13 +135,15 @@ def lambda_handler(event, context):
     PASSWORD = all_ssm_parameters['bot_fredrick_pass']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
     DRIVERPATH = os.path.relpath("../../opt/chromedriver_linux")             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers. Moving down a directory from the current directory of the file. Ref: https://stackoverflow.com/questions/25701809/how-to-move-down-to-a-parent-directory-in-python
 
-
-    options = webdriver.ChromeOptions()
-    options.add_argument("--incognito")                     # Optional. Selenium always opens a fresh private browser. Ref: https://stackoverflow.com/questions/27630190/python-selenium-incognito-private-mode
-    options.add_argument("--headless")                      # Comment this for testing. Headless mode will hide the Chrome interface. Ref: https://stackoverflow.com/questions/53657215/running-selenium-with-headless-chrome-webdriver
-    options.add_experimental_option("detach", True)         # https://stackoverflow.com/questions/51865300/python-selenium-keep-browser-open
-    driver = webdriver.Chrome(DRIVERPATH, options=options)
-
+    # Incognito isn't an option with the docker image used..
+    options = [
+        "--headless",
+        "--single-process",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--no-sandbox"
+    ]
+    driver = create_driver(options)
 
     badminton_time_scheduled = badminton_time("Thursday", "19:00")
     badminton_time_formatted = str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1])
@@ -150,5 +152,5 @@ def lambda_handler(event, context):
     open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
     login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
     create_group_messenger_poll(driver, poll_title, 'Yes', 'No')
-    write_messenger_message('Please vote in poll above for badminton attendance on ' + badminton_time_formatted)
-    finish_session()
+    write_messenger_message(driver, f'Please vote in poll above for badminton attendance on {badminton_time_formatted}')
+    finish_session(driver)
