@@ -4,6 +4,11 @@ variable "aws_region" {
     type        = string
 }
 
+variable "logical_environment" {
+    description = "The logical environment selected"
+    type        = string
+}
+
 variable "generic_tags" {
     description = "Generic tags for all resources"
     type        = map(string)

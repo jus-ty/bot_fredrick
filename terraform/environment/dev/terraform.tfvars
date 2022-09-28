@@ -1,5 +1,6 @@
 # General
 aws_region                          = "ap-southeast-2"
+logical_environment                 = "dev"
 generic_tags    = {
     "Environment": "dev"
     "Project": "bot_fredrick"

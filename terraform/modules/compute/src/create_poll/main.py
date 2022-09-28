@@ -129,7 +129,7 @@ def lambda_handler(event, context):
     #config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
     #config.read('poll-automation/configurations/credentials.ini')
     """
-    environment = 'dev'                 # TODO: Add environment variable to lambda which has the environment 'dev' or 'prod' -- JUSTIN TO ACTION
+    environment = os.environ['env']
     all_ssm_parameters = get_ssm_parameters(environment)
 
     THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
