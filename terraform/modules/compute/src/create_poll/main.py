@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 from datetime import datetime, date, timedelta
 import configparser
+import os
 import boto3
 
 # When running locally!! uncomment
