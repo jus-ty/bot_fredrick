@@ -10,11 +10,6 @@ variable "generic_tags" {
 }
 
 # VPC
-variable "vpc_cidr_block" {
-    description = "CIDR block for the VPC"
-    type        = string
-}
-
 variable "vpc_name_tag" {
     description = "Name of the VPC"
     type        = map(string)
@@ -24,11 +19,6 @@ variable "vpc_name_tag" {
 variable "public_subnet_name_tag" {
     description = "Name of the public subnet"
     type        = map(string)
-}
-
-variable "public_subnet_cidr_block" {
-    description = "CIDR block for the public subnet"
-    type        = string
 }
 
 variable "eip_name_tag" {
@@ -45,11 +35,6 @@ variable "public_route_table_name_tag" {
 variable "private_subnet_name_tag" {
     description = "Name of the private subnet"
     type        = map(string)
-}
-
-variable "private_subnet_cidr_block" {
-    description = "CIDR block for the private subnet"
-    type        = string
 }
 
 variable "nat_gw_name_tag" {
