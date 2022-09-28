@@ -27,4 +27,4 @@ Modules should be named based on on AWS Service Categories
 ### AWS Resources created outside of the terraform scripts (manually)
 - S3 Terraform state bucket
 - AWS SSM Params
-- Lambda Chromedriver layer
+- Lambda Chromedriver layer (https://github.com/diegoparrilla/headless-chrome-aws-lambda-layer, version: v0.2-beta.0)
