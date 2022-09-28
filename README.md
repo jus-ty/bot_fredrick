@@ -1,7 +1,7 @@
 # bot_fredrick
 Automate organisation of badminton sessions
 
-<img src="https://media3.giphy.com/media/TjAA9nsULA3NHco0dI/giphy.gif?cid=790b7611217f5c1883757d41ea5bf18e2e198919fba41745&rid=giphy.gif&ct=g"/>
+<a href="https://imgflip.com/gif/6uyj7q"><img src="https://imgflip.com/gif/6uyj7q.gif" title="baddy rules"/></a>
 
 ### Setup virtual env
 ```
