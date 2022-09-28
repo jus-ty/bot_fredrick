@@ -6,9 +6,10 @@ from datetime import datetime, date, timedelta
 import configparser
 import boto3
 
-config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
-config.read('poll-automation/configurations/credentials.ini')
-current_file_directory = os.path.dirname(os.path.abspath(__file__))
+# When running locally!! uncomment
+# config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
+# config.read('poll-automation/configurations/credentials.ini')
+# current_file_directory = os.path.dirname(os.path.abspath(__file__))
 
 def get_ssm_parameters(env):
     """
