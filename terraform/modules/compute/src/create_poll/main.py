@@ -84,7 +84,7 @@ def login_facebook(driver, EMAIL, PASSWORD):
     time.sleep(7)
 
     
-def create_group_messenger_poll(driver, pollTitle, option1, option2):
+def create_group_messenger_poll(driver, pollTitle, thread_id, option1, option2):
     """
     Create the poll
     TODO: remove 'option1' and 'option2', introduce array of options with dynamic detection of whatever number of options typed in
@@ -94,7 +94,7 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     # Selenium locating elements. Ref: https://selenium-python.readthedocs.io/locating-elements.html
     # Ref: https://stackoverflow.com/questions/55980282/how-to-find-and-click-on-a-button-element-that-contains-multiple-classes
     ## NOTE: THIS IS A BIT FUCKY - dono why I need to get the url again otherwise this part don't work. adding a longer sleep seems to help, my guess is coz the container isn't as powerful as our personal  consider adding explicit wait, REF: https://stackoverflow.com/questions/69834929/how-to-get-find-elements-by-class-name-to-work-in-python-selenium
-    driver.get("https://www.facebook.com/messages/t/5024734647638392")
+    driver.get(f"https://www.facebook.com/messages/t/{thread_id}")
     time.sleep(10)
     ## END OF FUCKY - NESS
     openMoreActionsClass = 'qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.dnr7xe2t.aeinzg81.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.d2hqwtrz.fzd7ma4j.o9wcebwi.lcfup58g.i0rxk2l3.laatuukc.b7mnygb8.iec8yc8l'
@@ -124,7 +124,7 @@ def lambda_handler(event, context):
     #config = configparser.ConfigParser()                                # Ref: https://zetcode.com/python/configparser/
     #config.read('poll-automation/configurations/credentials.ini')
     """
-    environment = 'dev'                 # TODO: have this and the below initialization of credentials in a function and be called inside 'main' function
+    environment = 'dev'                 # TODO: Add environment variable to lambda which has the environment 'dev' or 'prod' -- JUSTIN TO ACTION
     all_ssm_parameters = get_ssm_parameters(environment)
 
     THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
@@ -143,10 +143,10 @@ def lambda_handler(event, context):
 
     badminton_time_scheduled = badminton_time("Thursday", "19:00")
     badminton_time_formatted = str(badminton_time_scheduled[0]) + ', ' + str(badminton_time_scheduled[1])
-    poll_title = '[JW] Badminton, ' + badminton_time_formatted + '?'
+    poll_title = 'Badminton, ' + badminton_time_formatted + '?'
 
     open_browser(driver, f'https://www.facebook.com/messages/t/{THREAD_ID}/', 'chrome')
     login_facebook(driver, f'{EMAIL}', f'{PASSWORD}')
-    create_group_messenger_poll(driver, poll_title, 'Yes', 'No')
+    create_group_messenger_poll(driver, poll_title, THREAD_ID, 'Yes', 'No')
     write_messenger_message(driver, f'Please vote in poll above for badminton attendance on {badminton_time_formatted}')
     finish_session(driver)
