@@ -95,7 +95,7 @@ def create_group_messenger_poll(driver, pollTitle, option1, option2):
     
     # Selenium locating elements. Ref: https://selenium-python.readthedocs.io/locating-elements.html
     # Ref: https://stackoverflow.com/questions/55980282/how-to-find-and-click-on-a-button-element-that-contains-multiple-classes
-    ## NOTE: THIS IS A BIT FUCKY - dono why I need to get the url again otherwise this part don't work. adding a longer sleep seems to help, my guess is coz the container isn't as powerful as our personal PCs. consider adding explicit wait, REF: https://stackoverflow.com/questions/69834929/how-to-get-find-elements-by-class-name-to-work-in-python-selenium
+    ## NOTE: THIS IS A BIT FUCKY - dono why I need to get the url again otherwise this part don't work. adding a longer sleep seems to help, my guess is coz the container isn't as powerful as our personal  consider adding explicit wait, REF: https://stackoverflow.com/questions/69834929/how-to-get-find-elements-by-class-name-to-work-in-python-selenium
     driver.get("https://www.facebook.com/messages/t/5024734647638392")
     time.sleep(10)
     ## END OF FUCKY - NESS
@@ -127,15 +127,13 @@ def lambda_handler(event, context):
     #config.read('poll-automation/configurations/credentials.ini')
     """
     environment = 'dev'                 # TODO: have this and the below initialization of credentials in a function and be called inside 'main' function
-    current_file_directory = os.path.dirname(os.path.abspath(__file__))
     all_ssm_parameters = get_ssm_parameters(environment)
 
     THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
     EMAIL = all_ssm_parameters['bot_fredrick_email']                                   # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['email'] 
     PASSWORD = all_ssm_parameters['bot_fredrick_pass']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
-    DRIVERPATH = os.path.relpath("../../opt/chromedriver_linux")             # need to download drivers (in drivers directory) Ref: https://selenium-python.readthedocs.io/installation.html#drivers. Moving down a directory from the current directory of the file. Ref: https://stackoverflow.com/questions/25701809/how-to-move-down-to-a-parent-directory-in-python
 
-    # Incognito isn't an option with the docker image used..
+    # Incognito isn't an option with the docker image used.. as long as we don't run this more than once every 2 hours, the cache will reset (on the container and thus, on chrome as well), otherwise need to explicitly force the cache to reset by updating the lambda REF: https://stackoverflow.com/questions/50866472/restarting-aws-lambda-function-to-clear-cache
     options = [
         "--headless",
         "--single-process",
