@@ -11,6 +11,12 @@ resource "aws_lambda_function" "lambda" {
   layers                = [
                           "arn:aws:lambda:ap-southeast-2:537519792485:layer:HeadlessChromium:2"
                           ]
+  
+  environment {
+    variables = {
+      env = var.lambda_environment_variable_env
+    }
+  }
 
   vpc_config {
     subnet_ids          = [var.lambda_subnet_id]

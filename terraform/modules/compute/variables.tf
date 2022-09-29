@@ -23,3 +23,8 @@ variable "lambda_subnet_id" {
     description = "Subnet that lambda operates in"
     type        = string
 }
+
+variable "lambda_environment_variable_env" {
+    description = "Lambda environment variable used to determine the environment"
+    type        = string
+}

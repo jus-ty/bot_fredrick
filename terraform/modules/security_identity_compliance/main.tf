@@ -4,6 +4,36 @@ resource "aws_iam_role" "lambda_iam_role" {
   tags                = var.lambda_iam_role_tags
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_access_ssm_parameters_policy_attach" {
+  role                = aws_iam_role.lambda_iam_role.name
+  policy_arn          = aws_iam_policy.lambda_access_ssm_parameters_policy.arn
+}
+
+resource "aws_iam_policy" "lambda_access_ssm_parameters_policy" {
+  name                = "${var.lambda_ssm_iam_policy_name}"
+  policy              = data.aws_iam_policy_document.lambda_access_ssm_parameters_document.json
+  tags                = var.lambda_ssm_iam_policy_tags
+}
+
+data "aws_iam_policy_document" "lambda_access_ssm_parameters_document" {
+  statement {
+    sid               = "AllowLambdaReadSSMParameterAccessBotFredrickDocument"
+
+    effect            = "Allow"
+
+    actions           = [
+      "ssm:GetParameters"
+    ]
+
+    resources         = [
+      "arn:aws:ssm:*:537519792485:parameter/bot_fredrick_email",
+      "arn:aws:ssm:*:537519792485:parameter/bot_fredrick_pass",
+      "arn:aws:ssm:*:537519792485:parameter/fb_group_chat_thread_id_dev",
+      "arn:aws:ssm:*:537519792485:parameter/fb_group_chat_thread_id_prod"
+    ]
+  }
+}
+
 data "aws_iam_policy_document" "lambda_trust_policy" {
   statement {
     actions           = ["sts:AssumeRole"]
