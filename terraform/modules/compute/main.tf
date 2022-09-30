@@ -25,6 +25,14 @@ resource "aws_lambda_function" "lambda" {
 
 }
 
+resource "aws_lambda_permission" "allow_cloudwatch_create_poll_lambda" {
+  statement_id = "AllowExecutionFromCloudWatch"
+  action = "lambda:InvokeFunction"
+  function_name = var.lambda_name
+  principal = "events.amazonaws.com"
+  source_arn = "arn:aws:lambda:ap-southeast-2:537519792485:function:bot_fredrick_lambda_dev"
+} 
+
 data "archive_file" "lambda_zip_file" {
   type                  = "zip"
   output_path           = "/tmp/create_poll_lambda.zip"
