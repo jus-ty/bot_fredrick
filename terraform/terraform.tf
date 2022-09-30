@@ -64,3 +64,9 @@ module "security_identity_compliance" {
     lambda_ssm_iam_policy_tags      = "${merge({"Name": "AllowLambdaReadSSMParameterAccessBotFredrick"},var.generic_tags)}"
 }
 
+module "application_integration" {
+  source = "./modules/application_integration"
+
+  # Lambda ARN
+  lambda_arn = "${var.lambda_function_arn}"
+}
