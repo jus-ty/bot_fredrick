@@ -64,25 +64,3 @@ module "security_identity_compliance" {
     lambda_ssm_iam_policy_tags      = "${merge({"Name": "AllowLambdaReadSSMParameterAccessBotFredrick"},var.generic_tags)}"
 }
 
-module "application_integration" {
-  source = "./modules/application_integration"
-
-  create_bus = false
-
-  rules = {
-    crons = {
-      description         = "Trigger for a Lambda every 2 hours"
-      schedule_expression = "rate(2 hours)"
-    }
-  }
-
-  targets = {
-    crons = [
-      {
-        name  = "lambda-loves-cron"
-        arn   = "arn:aws:lambda:ap-southeast-1:135367859851:function:resolved-penguin-lambda"
-        input = jsonencode({ "job" : "cron-by-rate" })
-      }
-    ]
-  }
-}

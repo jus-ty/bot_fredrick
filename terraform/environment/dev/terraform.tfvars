@@ -32,3 +32,5 @@ lambda_name_tag                     = {"Name": "bot_fredrick_lambda_dev"}
 # IAM Role
 lambda_iam_name_single              = "bot_fredrick_iam_role_lambda_dev"
 lambda_iam_name_tag                 = {"Name": "bot_fredrick_iam_role_lambda_dev"}
+
+# Event Bridge
