@@ -85,8 +85,3 @@ variable "lambda_name_tag" {
     description = "Tag of the lambda function"
     type        = map(string)
 }
-
-variable "lambda_function_arn" {
-    description = "Lambda ARN"
-    type        = map(string)
-}

@@ -10,7 +10,7 @@ resource "aws_cloudwatch_event_rule" "event_bridge_rule" {
 
 resource "aws_cloudwatch_event_target" "target_lambda" {
   # "arn:aws:lambda:ap-southeast-2:537519792485:function:bot_fredrick_lambda_dev"
-  arn  = var.lambda_arn
+  arn  = var.lambda_function_arn
   rule = aws_cloudwatch_event_rule.event_bridge_rule.name
 
 }
@@ -62,6 +62,42 @@ resource "aws_cloudwatch_event_target" "target_lambda" {
         function_name         = var.lambda_name
 
 */
+
+## connect output to the main.tf (being used in compute in this example)
+/*
+(/networking/outputs.tf)
+
+output "private_subnet_id" {
+    value = aws_subnet.private_subnet.id
+}
+
+>
+(terraform.tf)
+
+module "compute" {
+    source = "./modules/compute"
+
+    lambda_subnet_id = module.networking.private_subnet_id
+    ...
+    }
+
+>
+(compute/variables.tf)
+
+variable "lambda_subnet_id" {...}
+
+>
+(/compute/main.tf)
+
+  vpc_config {
+    subnet_ids = [var.lambda_subnet_id]
+    ...
+    }
+
+*/
+
+
+
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target
 

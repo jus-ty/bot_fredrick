@@ -44,6 +44,7 @@ module "compute" {
     source = "./modules/compute"
 
     # Lambda
+    lambda_arn                      = module.compute.lambda_function_unique_arn      # To access one of the module's output values, use module.<MODULE NAME>.<OUTPUT NAME>. Ref: https://www.terraform.io/language/expressions/references
     lambda_name                     = "${var.lambda_name_single}"
     lambda_name_tags                = "${merge(var.lambda_name_tag,var.generic_tags)}"
     lambda_iam_role                 = module.security_identity_compliance.iam_role_lambda_arn
@@ -68,5 +69,5 @@ module "application_integration" {
   source = "./modules/application_integration"
 
   # Lambda ARN
-  lambda_arn = "${var.lambda_function_arn}"
+  lambda_function_arn = module.compute.lambda_arn
 }
