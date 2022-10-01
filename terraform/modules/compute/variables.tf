@@ -9,6 +9,11 @@ variable "lambda_name_tags" {
     type        = map(string)
 }
 
+variable "lambda_arn" {
+    description = "Lambda ARN"
+    type        = string
+}
+
 variable "lambda_iam_role" {
     description = "IAM role arn for the lambda function"
     type        = string

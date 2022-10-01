@@ -44,9 +44,9 @@ module "compute" {
     source = "./modules/compute"
 
     # Lambda
-    lambda_arn                      = module.compute.lambda_function_unique_arn      # To access one of the module's output values, use module.<MODULE NAME>.<OUTPUT NAME>. Ref: https://www.terraform.io/language/expressions/references
     lambda_name                     = "${var.lambda_name_single}"
     lambda_name_tags                = "${merge(var.lambda_name_tag,var.generic_tags)}"
+    lambda_arn                      = module.compute.lambda_function_unique_arn      # To access one of the module's output values, use module.<MODULE NAME>.<OUTPUT NAME>. Ref: https://www.terraform.io/language/expressions/references
     lambda_iam_role                 = module.security_identity_compliance.iam_role_lambda_arn
     lambda_security_group           = module.networking.lambda_security_group_id
     lambda_subnet_id                = module.networking.private_subnet_id
@@ -69,10 +69,10 @@ module "application_integration" {
   source = "./modules/application_integration"
 
   # Event Bridge
-  event_bridge_name = "${var.event_bridge_name_single}"
-  event_bridge_name_tags = "${merge(var.event_bridge_name_tag,var.generic_tags)}"
-  event_bridge_schedules = "${var.event_bridge_schedule}"
+  event_bridge_name       = "${var.event_bridge_name_single}"
+  event_bridge_name_tags  = "${merge(var.event_bridge_name_tag,var.generic_tags)}"
+  event_bridge_schedules  = "${var.event_bridge_schedule}"
 
   # Lambda ARN
-  lambda_function_arn = module.compute.lambda_arn
+  lambda_function_arn     = module.compute.lambda_arn
 }
