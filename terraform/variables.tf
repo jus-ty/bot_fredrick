@@ -85,3 +85,18 @@ variable "lambda_name_tag" {
     description = "Tag of the lambda function"
     type        = map(string)
 }
+
+variable "event_bridge_name_single" {
+    description = "Name of the event bridge, not in a list/map"
+    type        = string
+}
+
+variable "event_bridge_name_tag" {
+    description = "Tag of the event bridge event"
+    type        = map(string)
+}
+
+variable "event_bridge_schedule" {
+    description = "Schedule of the event bridge, not in a list/map"
+    type        = string
+}

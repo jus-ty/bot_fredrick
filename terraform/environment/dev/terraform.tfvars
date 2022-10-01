@@ -34,3 +34,6 @@ lambda_iam_name_single              = "bot_fredrick_iam_role_lambda_dev"
 lambda_iam_name_tag                 = {"Name": "bot_fredrick_iam_role_lambda_dev"}
 
 # Event Bridge
+event_bridge_name_single            = "bot_fredrick_event_bridge_dev"
+event_bridge_name_tag               = {"Name": "bot_fredrick_event_bridge_dev"}
+event_bridge_schedule               = "rate(2 hours)"

@@ -2,9 +2,10 @@
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule
 resource "aws_cloudwatch_event_rule" "event_bridge_rule" {
-  name                  = "dev-short-schedule2"
-  description           = "Trigger for a Lambda every 2 hours"
-  schedule_expression   = "rate(2 hours)"
+  name                  = var.event_bridge_name
+  #description           = "Trigger for a Lambda every 2 hours"
+  tags                  = var.event_bridge_name_tags
+  schedule_expression   = var.event_bridge_schedules # "rate(2 hours)" 
 
 }
 
@@ -38,7 +39,10 @@ resource "aws_cloudwatch_event_target" "target_lambda" {
  > 
  (variables.tf) 
 
-    variable "lambda_name_single" { ... }
+    variable "lambda_name_single" {
+        description = "Name of the lambda, not in a list/map"
+        type        = string
+    }
  
  > 
  (terraform.tf) 
@@ -53,7 +57,10 @@ resource "aws_cloudwatch_event_target" "target_lambda" {
  > 
  (/compute/variables.tf)
  
-    variable "lambda_name" {...}
+    variable "lambda_name" {
+        description = "Name of the lambda function"
+        type        = string
+    }
  
  > 
  (/compute/main.tf)
@@ -62,6 +69,10 @@ resource "aws_cloudwatch_event_target" "target_lambda" {
         function_name         = var.lambda_name
 
 */
+
+
+
+
 
 ## connect output to the main.tf (being used in compute in this example)
 /*
