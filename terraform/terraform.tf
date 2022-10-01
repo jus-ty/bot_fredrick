@@ -74,5 +74,5 @@ module "application_integration" {
   event_bridge_schedules  = "${var.event_bridge_schedule}"
 
   # Lambda ARN
-  lambda_function_arn     = module.compute.lambda_arn
+  lambda_function_arn     = module.compute.lambda_function_unique_arn
 }
