@@ -77,6 +77,7 @@ resource "aws_cloudwatch_event_target" "target_lambda" {
 ## connect output to the main.tf (being used in compute in this example)
 /*
 (/networking/outputs.tf)
+- the value is output generated from the networking module, AWS subnet service
 
 output "private_subnet_id" {
     value = aws_subnet.private_subnet.id
