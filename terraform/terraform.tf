@@ -46,10 +46,14 @@ module "compute" {
     # Lambda
     lambda_name                     = "${var.lambda_name_single}"
     lambda_name_tags                = "${merge(var.lambda_name_tag,var.generic_tags)}"
+    lambda_arn                      = module.compute.lambda_function_unique_arn
     lambda_iam_role                 = module.security_identity_compliance.iam_role_lambda_arn
     lambda_security_group           = module.networking.lambda_security_group_id
     lambda_subnet_id                = module.networking.private_subnet_id
     lambda_environment_variable_env = "${var.logical_environment}"
+
+    # EventBridge
+    eventbridge_arn                 = module.application_integration.eventbridge_rule_arns
 }
 
 module "security_identity_compliance" {
@@ -62,4 +66,16 @@ module "security_identity_compliance" {
     # SSM IAM Policy
     lambda_ssm_iam_policy_name      = "AllowLambdaReadSSMParameterAccessBotFredrick"
     lambda_ssm_iam_policy_tags      = "${merge({"Name": "AllowLambdaReadSSMParameterAccessBotFredrick"},var.generic_tags)}"
+}
+
+module "application_integration" {
+  source = "./modules/application_integration"
+
+  # Event Bridge
+  event_bridge_name                 = "${var.event_bridge_name_single}"
+  event_bridge_name_tags            = "${merge(var.event_bridge_name_tag,var.generic_tags)}"
+  event_bridge_schedules            = "${var.event_bridge_schedule}"
+
+  # Lambda ARN
+  lambda_function_arn               = module.compute.lambda_function_unique_arn
 }

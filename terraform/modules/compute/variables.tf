@@ -9,6 +9,11 @@ variable "lambda_name_tags" {
     type        = map(string)
 }
 
+variable "lambda_arn" {
+    description = "Lambda ARN"
+    type        = string
+}
+
 variable "lambda_iam_role" {
     description = "IAM role arn for the lambda function"
     type        = string
@@ -26,5 +31,11 @@ variable "lambda_subnet_id" {
 
 variable "lambda_environment_variable_env" {
     description = "Lambda environment variable used to determine the environment"
+    type        = string
+}
+
+# EventBridge
+variable "eventbridge_arn" {
+    description = "EventBridge ARN to allow permission to execute Lambda"
     type        = string
 }

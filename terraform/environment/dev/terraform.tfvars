@@ -32,3 +32,8 @@ lambda_name_tag                     = {"Name": "bot_fredrick_lambda_dev"}
 # IAM Role
 lambda_iam_name_single              = "bot_fredrick_iam_role_lambda_dev"
 lambda_iam_name_tag                 = {"Name": "bot_fredrick_iam_role_lambda_dev"}
+
+# Event Bridge
+event_bridge_name_single            = "bot_fredrick_event_bridge_dev"
+event_bridge_name_tag               = {"Name": "bot_fredrick_event_bridge_dev"}
+event_bridge_schedule               = "cron(0/15 0/1 ? * * *)"              # Every 15 minutes # AWS CRON in UTC timezone, AEST = UTC + 10/11hrs.  
