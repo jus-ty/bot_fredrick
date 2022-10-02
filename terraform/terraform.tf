@@ -64,7 +64,7 @@ module "security_identity_compliance" {
     lambda_iam_role_tags            = "${merge(var.lambda_iam_name_tag,var.generic_tags)}"
 
     # SSM IAM Policy
-    lambda_ssm_iam_policy_name      = "AllowLambdaReadSSMParameterAccessBotFredrick"
+    lambda_ssm_iam_policy_name      = "AllowLambdaReadSSMParameterAccessBotFredrick_${var.logical_environment}"
     lambda_ssm_iam_policy_tags      = "${merge({"Name": "AllowLambdaReadSSMParameterAccessBotFredrick"},var.generic_tags)}"
 }
 
