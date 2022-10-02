@@ -5,6 +5,6 @@ resource "aws_cloudwatch_event_rule" "event_bridge_rule" {
 }
 
 resource "aws_cloudwatch_event_target" "target_lambda" {
-  arn  = var.lambda_function_arn
-  rule = aws_cloudwatch_event_rule.event_bridge_rule.name
+  arn                   = var.lambda_function_arn
+  rule                  = aws_cloudwatch_event_rule.event_bridge_rule.name
 }
