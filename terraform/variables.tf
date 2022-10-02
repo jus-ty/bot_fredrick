@@ -86,6 +86,7 @@ variable "lambda_name_tag" {
     type        = map(string)
 }
 
+# EventBridge
 variable "event_bridge_name_single" {
     description = "Name of the event bridge, not in a list/map"
     type        = string
