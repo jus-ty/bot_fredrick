@@ -46,7 +46,7 @@ module "compute" {
     # Lambda
     lambda_name                     = "${var.lambda_name_single}"
     lambda_name_tags                = "${merge(var.lambda_name_tag,var.generic_tags)}"
-    lambda_arn                      = module.compute.lambda_function_unique_arn      # To access one of the module's output values, use module.<MODULE NAME>.<OUTPUT NAME>. Ref: https://www.terraform.io/language/expressions/references
+    lambda_arn                      = module.compute.lambda_function_unique_arn
     lambda_iam_role                 = module.security_identity_compliance.iam_role_lambda_arn
     lambda_security_group           = module.networking.lambda_security_group_id
     lambda_subnet_id                = module.networking.private_subnet_id
