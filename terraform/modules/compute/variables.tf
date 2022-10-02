@@ -33,3 +33,9 @@ variable "lambda_environment_variable_env" {
     description = "Lambda environment variable used to determine the environment"
     type        = string
 }
+
+# EventBridge
+variable "eventbridge_arn" {
+    description = "EventBridge ARN to allow permission to execute Lambda"
+    type        = string
+}

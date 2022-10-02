@@ -51,6 +51,9 @@ module "compute" {
     lambda_security_group           = module.networking.lambda_security_group_id
     lambda_subnet_id                = module.networking.private_subnet_id
     lambda_environment_variable_env = "${var.logical_environment}"
+
+    # EventBridge
+    eventbridge_arn                 = module.application_integration.eventbridge_rule_arns
 }
 
 module "security_identity_compliance" {

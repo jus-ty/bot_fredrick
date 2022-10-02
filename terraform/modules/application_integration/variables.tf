@@ -1,5 +1,5 @@
 
-# Event bridge
+# EventBridge
 variable "event_bridge_name" {
     description = "Event bridge name"
     type        = string
