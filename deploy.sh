@@ -22,6 +22,9 @@ else
     exit
 fi
 
+# Get branch name
+branch_name=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+
 name="bot_fredrick_$env"
 
 cd terraform
@@ -33,5 +36,5 @@ terraform init -reconfigure \
 
 terraform workspace select $name || terraform workspace new $name
 
-terraform plan -var-file="environment/$env/terraform.tfvars"
-terraform $action -var-file="environment/$env/terraform.tfvars"
+terraform plan -var-file="environment/$env/terraform.tfvars" -var "git_branch=$branch_name"
+terraform $action -var-file="environment/$env/terraform.tfvars" -var "git_branch=$branch_name"
