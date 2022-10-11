@@ -69,13 +69,13 @@ module "security_identity_compliance" {
 }
 
 module "application_integration" {
-  source = "./modules/application_integration"
+    source = "./modules/application_integration"
 
-  # Event Bridge
-  event_bridge_name                 = "${var.event_bridge_name_single}"
-  event_bridge_name_tags            = "${merge(var.event_bridge_name_tag,var.generic_tags)}"
-  event_bridge_schedules            = "${var.event_bridge_schedule}"
+    # Event Bridge
+    event_bridge_name                 = "${var.event_bridge_name_single}"
+    event_bridge_name_tags            = "${merge(var.event_bridge_name_tag,var.generic_tags)}"
+    event_bridge_schedules            = "${var.event_bridge_schedule}"
 
-  # Lambda ARN
-  lambda_function_arn               = module.compute.lambda_function_unique_arn
+    # Lambda ARN
+    lambda_function_arn               = module.compute.lambda_function_unique_arn
 }
