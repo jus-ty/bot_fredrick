@@ -19,7 +19,7 @@ module "networking" {
 
     # VPC
     vpc_cidr_block                  = "10.0.0.0/24"
-    vpc_tags                        = "${merge(var.vpc_name_tag,var.generic_tags)}"
+    vpc_tags                        = "${merge({"Name": "bot_fredrick_vpc_${var.logical_environment}"},var.generic_tags)}"
 
     # Public Subnet
     public_subnet_tags              = "${merge(var.public_subnet_name_tag,var.generic_tags)}"
