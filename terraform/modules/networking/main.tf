@@ -3,10 +3,10 @@ resource "aws_vpc" "main_vpc" {
   tags                        = var.vpc_tags
 }
 
-resource "aws_security_group" "lambda_security_group" {
+resource "aws_security_group" "create_poll_lambda_security_group" {
   vpc_id                      = aws_vpc.main_vpc.id
-  description                 = "Security group to be used by the lambda function"
-  tags                        = var.lambda_security_group_tags
+  description                 = "Security group to be used by the create_poll lambda function"
+  tags                        = var.create_poll_lambda_security_group_tags
 
   egress {
     from_port                 = 80
@@ -23,16 +23,6 @@ resource "aws_security_group" "lambda_security_group" {
     cidr_blocks               = ["0.0.0.0/0"]
     description               = "HTTPS Access from the lambda to the internet"
   }
-
-  # TODO: may need ingress ports open as well? test it
-
-  # egress {
-  #   from_port         = 4444
-  #   to_port           = 4445
-  #   protocol          = "tcp"
-  #   cidr_blocks       = ["0.0.0.0/0"]
-  #   description       = "Webdriver from the lambda to the internet (might not be required? test it)"
-  # }
 }
 
 resource "aws_subnet" "public_subnet" {

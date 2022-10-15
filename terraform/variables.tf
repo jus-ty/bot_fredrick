@@ -14,90 +14,12 @@ variable "generic_tags" {
     type        = map(string)
 }
 
-# VPC
-variable "vpc_name_tag" {
-    description = "Name of the VPC"
-    type        = map(string)
-}
-
-# Public subnet
-variable "public_subnet_name_tag" {
-    description = "Name of the public subnet"
-    type        = map(string)
-}
-
-variable "eip_name_tag" {
-    description = "Name of the elastic IP"
-    type        = map(string)
-}
-
-variable "public_route_table_name_tag" {
-    description = "Name of the public route table"
-    type        = map(string)
-}
-
-# Private subnet
-variable "private_subnet_name_tag" {
-    description = "Name of the private subnet"
-    type        = map(string)
-}
-
-variable "nat_gw_name_tag" {
-    description = "Name of the nat gateway"
-    type        = map(string)
-}
-
-variable "private_route_table_name_tag" {
-    description = "Name of the private route table"
-    type        = map(string)
-}
-
-# Internet gateway
-variable "igw_name_tag" {
-    description = "Internet Gateway name tag"
-    type        = map(string)
-}
-
-# IAM Role
-variable "lambda_iam_name_tag" {
-    description = "Name of the IAM role for the lambda function"
-    type        = map(string)
-}
-
-variable "lambda_iam_name_single" {
-    description = "Name of the IAM for lambda, not in a list/map"
-    type        = string
-}
-
-# Security Group
-variable "lambda_sg_name_tag" {
-    description = "Tag of the name of SG for the lambda function"
-    type        = map(string)
-}
-
-# Lambda
-variable "lambda_name_single" {
-    description = "Name of the lambda, not in a list/map"
-    type        = string
-}
-
-variable "lambda_name_tag" {
-    description = "Tag of the lambda function"
-    type        = map(string)
-}
-
-# EventBridge
-variable "event_bridge_name_single" {
-    description = "Name of the event bridge, not in a list/map"
-    type        = string
-}
-
-variable "event_bridge_name_tag" {
-    description = "Tag of the event bridge event"
-    type        = map(string)
-}
-
-variable "event_bridge_schedule" {
+variable "create_poll_event_bridge_schedule" {
     description = "Schedule of the event bridge, not in a list/map"
+    type        = string
+}
+
+variable "git_branch" {
+    description = "Name of the branch being used for deployment"
     type        = string
 }

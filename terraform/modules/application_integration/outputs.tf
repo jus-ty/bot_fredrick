@@ -1,5 +1,5 @@
 # EventBridge ARN
-output "eventbridge_rule_arns" {
-  description = "The EventBridge Rule ARNs"
-  value       = aws_cloudwatch_event_rule.event_bridge_rule.arn
+output "create_poll_eventbridge_rule_arn" {
+  description = "The create_poll EventBridge Rule ARN"
+  value       = aws_cloudwatch_event_rule.create_poll_event_bridge_rule.arn
 }
