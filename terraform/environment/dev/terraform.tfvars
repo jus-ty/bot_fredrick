@@ -5,4 +5,4 @@ generic_tags    = {
     "Project": "bot_fredrick"
 }
 
-event_bridge_schedule               = "cron(0/15 0/1 ? * * *)"              # Every 15 minutes # AWS CRON in UTC timezone, AEST = UTC + 10/11hrs.
+create_poll_event_bridge_schedule   = "cron(0/15 0/1 ? * * *)"              # Every 15 minutes # AWS CRON in UTC timezone, AEST = UTC + 10/11hrs.

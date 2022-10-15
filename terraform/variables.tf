@@ -14,7 +14,7 @@ variable "generic_tags" {
     type        = map(string)
 }
 
-variable "event_bridge_schedule" {
+variable "create_poll_event_bridge_schedule" {
     description = "Schedule of the event bridge, not in a list/map"
     type        = string
 }

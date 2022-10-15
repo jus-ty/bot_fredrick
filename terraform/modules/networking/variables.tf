@@ -57,8 +57,8 @@ variable "vpc_tags" {
     type            = map(string)
 }
 
-# Security group
-variable "lambda_security_group_tags" {
-    description     = "Tags to be set on the lamdbda function"
+# Security group - create_poll
+variable "create_poll_lambda_security_group_tags" {
+    description     = "Tags to be set on the security group for the create_poll lambda function"
     type            = map(string)
 }
