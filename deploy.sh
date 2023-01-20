@@ -24,7 +24,7 @@ fi
 
 # Get branch name
 branch_name=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
-
+branch_name="release/v1.2.0"
 name="bot_fredrick_$env"
 
 cd terraform

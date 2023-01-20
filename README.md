@@ -26,6 +26,11 @@ e.g ./deploy.sh dev apply
 
 Modules should be named based on on AWS Service Categories
 
+
+### AWS Architecture Diagram
+
+<p><img align="center" alt="arch diagram" src="https://github.com/jus-ty/bot_fredrick/blob/main/botfredrickdiagram.png"/></p>
+
 ### AWS Resources created outside of the terraform scripts (manually)
 - S3 Terraform state bucket
 - AWS SSM Params
