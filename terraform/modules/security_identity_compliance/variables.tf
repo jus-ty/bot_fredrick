@@ -1,9 +1,3 @@
-# General
-variable "env" {
-    description = "Name of the logical environment"
-    type        = string
-}
-
 # IAM Role - create_poll
 variable "create_poll_lambda_iam_role_name" {
     description = "Name of the IAM role for the create_poll lambda function"
@@ -25,4 +19,19 @@ variable "create_poll_lambda_ssm_iam_policy_name" {
 variable "create_poll_lambda_ssm_iam_policy_tags" {
     description = "Tag of the IAM Policy document that allows SSM:GetParameters for the create_poll lambda"
     type        = map(string)
+}
+
+variable "ssm_parameter_email_arn" {
+    description = "The ARN for the email SSM parameter"
+    type        = string  
+}
+
+variable "ssm_parameter_password_arn" {
+    description = "The ARN for the password SSM parameter"
+    type        = string
+}
+
+variable "ssm_parameter_thread_id_arn" {
+    description = "The ARN for the thread id SSM parameter"
+    type        = string
 }

@@ -23,3 +23,23 @@ variable "git_branch" {
     description = "Name of the branch being used for deployment"
     type        = string
 }
+
+variable "account_email" {
+    description = "The email of the facebook service account"
+    type        = string
+}
+
+variable "account_password" {
+    description = "The password of the facebook service account"
+    type        = string
+}
+
+variable "thread_id" {
+    description = "The facebook thread ID to interact with"
+    type        = string
+}
+
+variable "headlesschromium_version" {
+    description = "The version of HeadlessChromium"
+    type        = string
+}

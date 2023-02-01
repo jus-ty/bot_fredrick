@@ -35,3 +35,14 @@ variable "create_poll_eventbridge_arn" {
     description = "create_poll EventBridge ARN to allow permission to execute Lambda"
     type        = string
 }
+
+# Lambda Layer - Headless Chromium
+variable "headless_chromium_name" {
+    description = "The name of the headless chromium layer"
+    type        = string 
+}
+
+variable "headless_chromium_version" {
+    description = "The version of the headless chromium layer"
+    type        = string
+}

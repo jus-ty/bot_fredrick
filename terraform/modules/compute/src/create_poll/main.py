@@ -23,7 +23,7 @@ def get_ssm_parameters(env):
     response = client.get_parameters(                       # Ref 1: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html#SSM.Client.get_parameters. Ref 2: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html
         Names=[
             'bot_fredrick_email',
-            'bot_fredrick_pass',
+            'bot_fredrick_password',
             f'fb_group_chat_thread_id_{env}',
         ],
         WithDecryption=True
@@ -154,7 +154,7 @@ def lambda_handler(event, context):
 
     THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
     EMAIL = all_ssm_parameters['bot_fredrick_email']                                   # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['email'] 
-    PASSWORD = all_ssm_parameters['bot_fredrick_pass']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
+    PASSWORD = all_ssm_parameters['bot_fredrick_password']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
 
     if execution_method == "local":
         #current_file_directory = os.path.dirname(os.path.abspath(__file__))
