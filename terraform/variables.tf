@@ -43,3 +43,8 @@ variable "headlesschromium_version" {
     description = "The version of HeadlessChromium"
     type        = string
 }
+
+variable "state_bucket_name" {
+    description = "The name of the terraform state bucket"
+    type        = string
+}

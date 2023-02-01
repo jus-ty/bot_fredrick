@@ -9,7 +9,7 @@ resource "aws_lambda_function" "create_poll_lambda" {
   source_code_hash            = "${data.archive_file.create_poll_lambda_zip_file.output_base64sha256}"
   tags                        = var.create_poll_lambda_tags
     layers                    = [
-                                "${aws_lambda_layer_version.headlesschromium_layer.arn}"
+                                "${aws_lambda_layer_version.headlesschromium_lambda_layer.arn}"
                                 ]
   
   environment {
@@ -42,9 +42,17 @@ data "archive_file" "create_poll_lambda_zip_file" {
   }
 }
 
-resource "aws_lambda_layer_version" "headlesschromium_layer" {
-  filename                    = "${path.module}/src/layers/${var.headless_chromium_version}.zip"
+resource "aws_lambda_layer_version" "headlesschromium_lambda_layer" {
+  s3_bucket                   = var.upload_bucket_lambda_layer
+  s3_key                      = aws_s3_bucket_object.s3_object_headlesschromium_layer.id
   layer_name                  = "${var.headless_chromium_name}"
   compatible_runtimes         = ["python3.8"]
   compatible_architectures    = ["x86_64"]
 }
+
+resource "aws_s3_bucket_object" "s3_object_headlesschromium_layer" {
+    bucket                    = var.upload_bucket_lambda_layer
+    key                       = "bot_fredrick/${var.headless_chromium_name}"
+    source                    = "${path.module}/src/layers/layer-headless_chrome-${var.headless_chromium_version}.zip"
+}
+

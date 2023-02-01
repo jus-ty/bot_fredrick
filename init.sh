@@ -61,7 +61,7 @@ echo "state_bucket_name=${state_bucket_name}" >> conf.config
 
 # NOTE: Ensure git is configured!!
 
-wget https://github.com/diegoparrilla/headless-chrome-aws-lambda-layer/archive/refs/tags/${headlesschromium_version}.zip
-mv ${headlesschromium_version}.zip ./terraform/modules/compute/src/layers
+wget https://github.com/diegoparrilla/headless-chrome-aws-lambda-layer/releases/download/${headlesschromium_version}/layer-headless_chrome-${headlesschromium_version}.zip
+mv layer-headless_chrome-${headlesschromium_version}.zip ./terraform/modules/compute/src/layers
 
 echo "headlesschromium_version=${headlesschromium_version}" >> conf.config

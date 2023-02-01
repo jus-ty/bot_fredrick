@@ -59,6 +59,9 @@ module "compute" {
     # Lambda Layer - Headless Chromium
     headless_chromium_name                        = "HeadlessChromium_${var.logical_environment}"
     headless_chromium_version                     = "${var.headlesschromium_version}"
+
+    # S3 - State bucket name
+    upload_bucket_lambda_layer                    = "${var.state_bucket_name}"
 }
 
 module "security_identity_compliance" {

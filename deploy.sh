@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 env=${1,,}
 action=${2,,}
 
@@ -39,5 +39,5 @@ terraform init -reconfigure \
 
 terraform workspace select $name || terraform workspace new $name
 
-terraform plan -var-file="environment/$env/terraform.tfvars" -var "git_branch=$branch_name" -var "aws_region=$aws_region" -var "account_email=$account_email" -var "account_password=$account_password" -var "thread_id=$thread_id" -var "headlesschromium_version=$headlesschromium_version"
-terraform $action -var-file="environment/$env/terraform.tfvars" -var "git_branch=$branch_name" -var "aws_region=$aws_region" -var "account_email=$account_email" -var "account_password=$account_password" -var "thread_id=$thread_id" -var "headlesschromium_version=$headlesschromium_version"
+terraform plan -var-file="environment/$env/terraform.tfvars" -var "git_branch=$branch_name" -var "aws_region=$aws_region" -var "account_email=$account_email" -var "account_password=$account_password" -var "thread_id=$thread_id" -var "headlesschromium_version=$headlesschromium_version" -var "state_bucket_name=$state_bucket_name"
+terraform $action -var-file="environment/$env/terraform.tfvars" -var "git_branch=$branch_name" -var "aws_region=$aws_region" -var "account_email=$account_email" -var "account_password=$account_password" -var "thread_id=$thread_id" -var "headlesschromium_version=$headlesschromium_version" -var "state_bucket_name=$state_bucket_name"
