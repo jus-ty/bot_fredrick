@@ -58,16 +58,58 @@ resource "aws_route_table_association" "public_rta" {
   route_table_id              = aws_route_table.public_rt.id
 }
 
-resource "aws_eip" "nat" {
+resource "aws_eip" "nat_instance" {
   vpc                         = true
+  instance                    = aws_instance.nat_instance.id
   tags                        = var.eip_tags
 }
 
-resource "aws_nat_gateway" "nat_gw" {
-  allocation_id               = aws_eip.nat.id
+resource "aws_instance" "nat_instance" {
+  ami                         = "ami-0d142f08d13879a08"
+  instance_type               = "t2.micro"
+  security_groups             = [aws_security_group.nat_instance_security_group.id]
+  source_dest_check           = false
   subnet_id                   = aws_subnet.public_subnet.id
   depends_on                  = [aws_internet_gateway.internet_gw]
-  tags                        = var.nat_gw_tags
+  tags                        = var.nat_instance_tags
+}
+
+resource "aws_security_group" "nat_instance_security_group" {
+  vpc_id                      = aws_vpc.main_vpc.id
+  description                 = "Security group to be used by the nat instance"
+  tags                        = var.nat_instance_security_group_tags
+
+  ingress {
+    from_port                 = 80
+    to_port                   = 80
+    protocol                  = "tcp"
+    cidr_blocks               = [var.private_subnet_cidr_block]
+    description               = "Allow inbound HTTP traffic from servers in the private subnet"
+  }
+
+  ingress {
+    from_port                 = 443
+    to_port                   = 443
+    protocol                  = "tcp"
+    cidr_blocks               = [var.private_subnet_cidr_block]
+    description               = "Allow inbound HTTPS traffic from servers in the private subnet"
+  }
+
+  egress {
+    from_port                 = 80
+    to_port                   = 80
+    protocol                  = "tcp"
+    cidr_blocks               = ["0.0.0.0/0"]
+    description               = "Allow outbound HTTP access to the internet"
+  }
+
+  egress {
+    from_port                 = 443
+    to_port                   = 443
+    protocol                  = "tcp"
+    cidr_blocks               = ["0.0.0.0/0"]
+    description               = "Allow outbound HTTPS access to the internet"
+  }
 }
 
 resource "aws_route_table" "private_rt" {
@@ -75,7 +117,7 @@ resource "aws_route_table" "private_rt" {
   tags                        = var.private_route_table_tags
   route {
     cidr_block                = "0.0.0.0/0"
-    nat_gateway_id            = aws_nat_gateway.nat_gw.id
+    instance_id               = aws_instance.nat_instance.id
   }
 }
 

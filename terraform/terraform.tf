@@ -30,7 +30,7 @@ module "networking" {
     # Private Subnet
     private_subnet_tags                           = "${merge({"Name": "bot_fredrick_private_subnet_${var.logical_environment}"},local.info_tags)}"
     private_subnet_cidr_block                     = "10.0.0.16/28"
-    nat_gw_tags                                   = "${merge({"Name": "bot_fredrick_nat_gw_${var.logical_environment}"},local.info_tags)}"
+    nat_instance_tags                                   = "${merge({"Name": "bot_fredrick_nat_instance_${var.logical_environment}"},local.info_tags)}"
     private_route_table_tags                      = "${merge({"Name": "bot_fredrick_private_route_table_${var.logical_environment}"},local.info_tags)}"
 
     # Internet Gateway
@@ -38,6 +38,9 @@ module "networking" {
 
     # Security group - create_poll
     create_poll_lambda_security_group_tags        = "${merge({"Name": "bot_fredrick_sg_create_poll_lambda_${var.logical_environment}"},local.info_tags)}"
+
+    # NAT Instance SG
+    nat_instance_security_group_tags              = "${merge({"Name": "bot_fredrick_sg_nat_instance_${var.logical_environment}"},local.info_tags)}"
 }
 
 module "compute" {
