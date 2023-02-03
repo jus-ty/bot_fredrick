@@ -22,8 +22,8 @@ def get_ssm_parameters(env):
 
     response = client.get_parameters(                       # Ref 1: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html#SSM.Client.get_parameters. Ref 2: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html
         Names=[
-            'bot_fredrick_email',
-            'bot_fredrick_password',
+            f'bot_fredrick_email_{env}',
+            f'bot_fredrick_password_{env}',
             f'fb_group_chat_thread_id_{env}',
         ],
         WithDecryption=True
@@ -153,8 +153,8 @@ def lambda_handler(event, context):
     all_ssm_parameters = get_ssm_parameters(environment)
 
     THREAD_ID = all_ssm_parameters[f'fb_group_chat_thread_id_{environment}']                                 # the group chat ID (found in the URL of the group chat Messenger). Use following for no AWS connection: config['messenger']['devtesting_groupchat_id']
-    EMAIL = all_ssm_parameters['bot_fredrick_email']                                   # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['email'] 
-    PASSWORD = all_ssm_parameters['bot_fredrick_password']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
+    EMAIL = all_ssm_parameters[f'bot_fredrick_email_{environment}']                                   # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['email'] 
+    PASSWORD = all_ssm_parameters[f'bot_fredrick_password_{environment}']                                # TODO: encrypt/mask text. Use following for no AWS connection: config['credentials']['password']
 
     if execution_method == "local":
         #current_file_directory = os.path.dirname(os.path.abspath(__file__))
@@ -174,7 +174,7 @@ def lambda_handler(event, context):
             print(e)
 
     elif execution_method == "lambda":
-        # Incognito isn't an option with the docker image used.. as long as we don't run this more than once every 2 hours, the cache will reset (on the container and thus, on chrome as well), otherwise need to explicitly force the cache to reset by updating the lambda REF: https://stackoverflow.com/questions/50866472/restarting-aws-lambda-function-to-clear-cache
+        # Incognito isn't an option with the lambda layer used.. as long as we don't run this more than once every 2 hours, the cache will reset (on the container and thus, on chrome as well), otherwise need to explicitly force the cache to reset by updating the lambda REF: https://stackoverflow.com/questions/50866472/restarting-aws-lambda-function-to-clear-cache
         options = [
             "--headless",
             "--single-process",
