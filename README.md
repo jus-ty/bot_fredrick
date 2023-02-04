@@ -44,6 +44,3 @@ Modules should be named based on on AWS Service Categories
 <p><img align="center" alt="arch diagram" src="https://github.com/jus-ty/bot_fredrick/blob/main/botfredrickdiagram.png"/></p>
 
 <i>EDIT 2023/02/04: NAT Gateway was converted to a NAT Instance, GW is way too much $$$$</i>
-
-### AWS Resources created outside of the terraform scripts (manually)
-- Lambda Chromedriver layer (https://github.com/diegoparrilla/headless-chrome-aws-lambda-layer, version: v0.2-beta.0)
