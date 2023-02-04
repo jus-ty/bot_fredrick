@@ -17,6 +17,13 @@ Automate organisation of badminton sessions
 
 e.g ./deploy.sh dev apply
 
+3. Scheduling the create_poll lambda:
+- Navigate to terraform/environment/(env*)/terraform.tfvars
+    - Select when the create_poll lambda should run with: create_poll_event_bridge_schedule
+    - Select when the NAT instance starts up with: start_instance_schedule (Should ideally be 5 minutes before create_poll_event_bridge_schedule)
+    - Select when the NAT instance stops with: stop_instance_schedule (Should ideally be 5 minutes after create_poll_event_bridge_schedule)
+*: Depending on your selected environment
+
 ### Virtual env setup
 ```
 python3 -m venv env

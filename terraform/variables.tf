@@ -48,3 +48,13 @@ variable "state_bucket_name" {
     description = "The name of the terraform state bucket"
     type        = string
 }
+
+variable "start_instance_schedule" {
+    description = "The cron schedule of the start instance maintenance window"
+    type        = string
+}
+
+variable "stop_instance_schedule" {
+    description = "The cron schedule of the stop instance maintenance window"
+    type        = string
+}

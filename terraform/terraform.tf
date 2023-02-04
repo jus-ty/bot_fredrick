@@ -103,17 +103,39 @@ module "management_governance" {
     source = "./modules/management_governance"
     
     # SSM Parameter - email
-    ssm_parameter_account_email_name         = "bot_fredrick_email_${var.logical_environment}"
-    ssm_parameter_account_email_value        = "${var.account_email}"
-    ssm_parameter_account_email_tags         = "${merge({"Name": "bot_fredrick_email_${var.logical_environment}"},local.info_tags)}"
+    ssm_parameter_account_email_name              = "bot_fredrick_email_${var.logical_environment}"
+    ssm_parameter_account_email_value             = "${var.account_email}"
+    ssm_parameter_account_email_tags              = "${merge({"Name": "bot_fredrick_email_${var.logical_environment}"},local.info_tags)}"
     
     # SSM Parameter - password
-    ssm_parameter_account_password_name      = "bot_fredrick_password_${var.logical_environment}"
-    ssm_parameter_account_password_value     = "${var.account_password}"
-    ssm_parameter_account_password_tags      = "${merge({"Name": "bot_fredrick_password_${var.logical_environment}"},local.info_tags)}"
+    ssm_parameter_account_password_name           = "bot_fredrick_password_${var.logical_environment}"
+    ssm_parameter_account_password_value          = "${var.account_password}"
+    ssm_parameter_account_password_tags           = "${merge({"Name": "bot_fredrick_password_${var.logical_environment}"},local.info_tags)}"
 
     # SSM Parameter - thread_id
-    ssm_parameter_thread_id_name             = "fb_group_chat_thread_id_${var.logical_environment}"
-    ssm_parameter_thread_id_value            = "${var.thread_id}"
-    ssm_parameter_thread_id_tags             = "${merge({"Name": "fb_group_chat_thread_id_${var.logical_environment}"},local.info_tags)}"
+    ssm_parameter_thread_id_name                  = "fb_group_chat_thread_id_${var.logical_environment}"
+    ssm_parameter_thread_id_value                 = "${var.thread_id}"
+    ssm_parameter_thread_id_tags                  = "${merge({"Name": "fb_group_chat_thread_id_${var.logical_environment}"},local.info_tags)}"
+
+    # NAT Instance
+    nat_instance_ec2_arn                          = module.networking.nat_instance_arn
+    nat_instance_ec2_id                           = module.networking.nat_instance_id
+
+    # IAM Role for SSM Start/Stop
+    ssm_automation_iam_role_name                  = "SSM_StartStopEC2Role_${var.logical_environment}"
+    ssm_automation_iam_role_tags                  = "${merge({"Name": "SSM_StartStopEC2Role_${var.logical_environment}"},local.info_tags)}"
+    ssm_automation_iam_policy_name                = "SSM_StartStopEC2RolePolicy_${var.logical_environment}"
+    ssm_automation_iam_policy_tags                = "${merge({"Name": "SSM_StartStopEC2RolePolicy_${var.logical_environment}"},local.info_tags)}"
+
+    # SSM Maintenance windows - start
+    ssm_automation_start_maintenance_window_name  = "start_nat_instance_window_${var.logical_environment}"
+    ssm_automation_start_maintenance_window_tags  = "${merge({"Name": "start_nat_instance_window_${var.logical_environment}"},local.info_tags)}"
+    ssm_automation_start_cron_schedule            = "${var.start_instance_schedule}"
+    ssm_automation_start_task_name                = "start_nat_instance_task_${var.logical_environment}"
+
+    # SSM Maintenance windows - stop
+    ssm_automation_stop_maintenance_window_name   = "stop_nat_instance_window_${var.logical_environment}"
+    ssm_automation_stop_maintenance_window_tags   = "${merge({"Name": "stop_nat_instance_window_${var.logical_environment}"},local.info_tags)}"
+    ssm_automation_stop_cron_schedule            = "${var.stop_instance_schedule}"
+    ssm_automation_stop_task_name                 = "stop_nat_instance_task_${var.logical_environment}"
 }
