@@ -35,3 +35,21 @@ variable "create_poll_eventbridge_arn" {
     description = "create_poll EventBridge ARN to allow permission to execute Lambda"
     type        = string
 }
+
+# Lambda Layer - Headless Chromium
+variable "headless_chromium_name" {
+    description = "The name of the headless chromium layer"
+    type        = string 
+}
+
+variable "headless_chromium_version" {
+    description = "The version of the headless chromium layer"
+    type        = string
+}
+
+
+# S3 - State bucket name
+variable "upload_bucket_lambda_layer" {
+    description = "The bucket where the lambda layer will be uploaded to"
+    type        = string
+}

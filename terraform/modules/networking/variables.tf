@@ -36,8 +36,8 @@ variable "private_subnet_cidr_block" {
     type            = string
 }
 
-variable "nat_gw_tags" {
-    description     = "Tags to set on the nat gw"
+variable "nat_instance_tags" {
+    description     = "Tags to set on the nat instance"
     type            = map(string)
 }
 
@@ -60,5 +60,11 @@ variable "vpc_tags" {
 # Security group - create_poll
 variable "create_poll_lambda_security_group_tags" {
     description     = "Tags to be set on the security group for the create_poll lambda function"
+    type            = map(string)
+}
+
+# NAT Instance SG
+variable "nat_instance_security_group_tags" {
+    description     = "Tags to be set on the security group for the nat instance"
     type            = map(string)
 }

@@ -6,3 +6,6 @@ terraform/.terraform/*
 venv/
 playground/
 poll-automation/configurations
+conf.config
+terraform/modules/compute/src/layers/*
+headlesschromium_version.config

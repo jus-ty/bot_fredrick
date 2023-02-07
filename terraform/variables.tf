@@ -23,3 +23,38 @@ variable "git_branch" {
     description = "Name of the branch being used for deployment"
     type        = string
 }
+
+variable "account_email" {
+    description = "The email of the facebook service account"
+    type        = string
+}
+
+variable "account_password" {
+    description = "The password of the facebook service account"
+    type        = string
+}
+
+variable "thread_id" {
+    description = "The facebook thread ID to interact with"
+    type        = string
+}
+
+variable "headlesschromium_version" {
+    description = "The version of HeadlessChromium"
+    type        = string
+}
+
+variable "state_bucket_name" {
+    description = "The name of the terraform state bucket"
+    type        = string
+}
+
+variable "start_instance_schedule" {
+    description = "The cron schedule of the start instance maintenance window"
+    type        = string
+}
+
+variable "stop_instance_schedule" {
+    description = "The cron schedule of the stop instance maintenance window"
+    type        = string
+}

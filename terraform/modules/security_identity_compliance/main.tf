@@ -28,9 +28,9 @@ data "aws_iam_policy_document" "create_poll_lambda_access_ssm_parameters_documen
     ]
 
     resources         = [
-      "arn:aws:ssm:*:537519792485:parameter/bot_fredrick_email",
-      "arn:aws:ssm:*:537519792485:parameter/bot_fredrick_pass",
-      "arn:aws:ssm:*:537519792485:parameter/fb_group_chat_thread_id_${var.env}"
+      "${var.ssm_parameter_email_arn}",
+      "${var.ssm_parameter_password_arn}",
+      "${var.ssm_parameter_thread_id_arn}"
     ]
   }
 }
