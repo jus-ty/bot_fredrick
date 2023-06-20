@@ -3,15 +3,15 @@
 source ./headlesschromium_version.config
 
 rm -f conf.config
+rm ./terraform/modules/compute/src/layers/layer-headless_chrome-${headlesschromium_version}.zip
 
 # Region Selection
 echo 'Please select a number from the AWS region list:'
-sleep 2
 nl region.list
-count="$(wc -l region.list | cut -f 1 -d' ')"
+count="$(wc -l region.list | awk '{print $1}')"
 n=""
 while true; do
-    read -p 'Enter number (e.g 3 for us-west-1): ' n
+    read -p $'\nEnter number (e.g 3 for us-west-1): ' n
     # If $n is an integer between one and $count...
     if [ "$n" -eq "$n" ] && [ "$n" -gt 0 ] && [ "$n" -le "$count" ]; then
         break
@@ -43,7 +43,7 @@ read -p 'Enter the thread ID for your prod chat: ' thread_id_prod
 echo "thread_id_prod=${thread_id_prod}" >> conf.config
 
 # # Terraform state bucket creation
-byo_state_bucket=${1,,}
+byo_state_bucket=$(echo "$1" | tr '[:upper:]' '[:lower:]')
 
 account_number=$(aws sts get-caller-identity --query Account --output text)
 echo "account_number=${account_number}" >> conf.config
@@ -62,6 +62,6 @@ echo "state_bucket_name=${state_bucket_name}" >> conf.config
 # NOTE: Ensure git is configured!!
 
 wget https://github.com/diegoparrilla/headless-chrome-aws-lambda-layer/releases/download/${headlesschromium_version}/layer-headless_chrome-${headlesschromium_version}.zip
-mv layer-headless_chrome-${headlesschromium_version}.zip ./terraform/modules/compute/src/layers
+mkdir -p ./terraform/modules/compute/src/layers/ && mv layer-headless_chrome-${headlesschromium_version}.zip ./terraform/modules/compute/src/layers/
 
 echo "headlesschromium_version=${headlesschromium_version}" >> conf.config
